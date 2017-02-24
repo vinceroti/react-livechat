@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "Eddie Zaneski",
+  "author": "Vince Roti",
   "license": "MIT",
   "dependencies": {
     "babel-core": "^6.7.7",
