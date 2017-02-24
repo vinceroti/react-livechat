@@ -21,6 +21,7 @@ class App extends React.Component {
   handleName(e) {
     if (e.keyCode === 13 && e.target.value ) {
       this.setState({ name: e.target.value });
+      e.target.value = '';
     }
   }
 
@@ -36,7 +37,9 @@ class App extends React.Component {
   }
 
   currentTime() {
-    return new Date().toLocaleTimeString();
+    let date = new Date().toLocaleTimeString();
+    date = date.slice(0,date.length -3);
+    return date;
   }
 
   render() {
