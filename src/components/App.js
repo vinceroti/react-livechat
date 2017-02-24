@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
+import { FormGroup, FormControl, Well } from 'react-bootstrap';
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: 'anon', messages: [] };
+    this.state = { name: 'User', messages: [] };
     this.handleName = this.handleName.bind(this);
     this.handleMessage = this.handleMessage.bind(this);
   }
@@ -49,16 +50,16 @@ class App extends React.Component {
     });
     return (
       <main>
-        <h1>Simple Chat</h1>
-        <h4>Name set as: {this.state.name}</h4>
-        <input type='text' placeholder='Enter Name' onKeyUp={this.handleName} />
+        <h1><b>Simple Chat</b></h1>
+        <h4>Name set as: <b>{this.state.name}</b></h4>
+
+        <FormControl className='input' type='text' placeholder='Enter Name' onKeyUp={this.handleName} />
+        <FormControl className='input' type='text' placeholder='Enter Message' onKeyUp={this.handleMessage} />
         <br/>
-        <input type='text' placeholder='Enter Message' onKeyUp={this.handleMessage} />
-        <br/><br/>
-        <ul className='chat'>
+        <Well className='chat'>
           {messages}
           <li className='no-bullets'>Welcome {this.state.name}!</li>
-        </ul>
+        </Well>
       </main>
     );
   }
