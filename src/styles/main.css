@@ -1,9 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Ubuntu');
-
 body {
   margin: 0px auto;
-  font-family: 'Ubuntu', sans-serif;
-  background-image: url("http://esq.h-cdn.co/assets/15/32/1438985167-screen-shot-2015-08-07-at-60550-pm.png");
+  background-image: url("./bg.png");
 }
 
 main {

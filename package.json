@@ -28,6 +28,8 @@
     "css-loader": "^0.26.2",
     "eslint": "^3.16.1",
     "eslint-plugin-react": "^6.10.0",
-    "style-loader": "^0.13.2"
+    "file-loader": "^0.10.0",
+    "style-loader": "^0.13.2",
+    "url-loader": "^0.5.8"
   }
 }
