@@ -26,13 +26,14 @@ class App extends React.Component {
 
   handleMessage = event => {
     const body = event.target.value;
+    const name = this.state.name;
     if (event.keyCode === 13 && body) {
       const message = {
         body,
-        from: this.state.name
+        name
       }
       this.setState({ messages: [message, ...this.state.messages] })
-      this.socket.emit('message', body)
+      this.socket.emit('message', message)
       event.target.value = '';
     }
   }
@@ -40,7 +41,7 @@ class App extends React.Component {
 
   render() {
     const messages = this.state.messages.map((message, index) => {
-      return <li style={{listStyle: 'none'}} key={index}><b>{message.from}: </b>{message.body}</li>
+      return <li style={{listStyle: 'none'}} key={index}><b>{message.name}: </b>{message.body}</li>
     })
     return (
       <div>

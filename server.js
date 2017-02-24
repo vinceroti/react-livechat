@@ -15,11 +15,11 @@ app.use(webpackDevMiddleware(webpack(webpackConfig)));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 io.on('connection', socket => {
-  socket.on('message', body => {
-    console.log(body)
+  socket.on('message', message => {
+    console.log(message)
     socket.broadcast.emit('message', {
-      body,
-      from: socket.id.slice(8)
+      body: message.body,
+      name: message.name
     });
   })
 })
