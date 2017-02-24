@@ -16,7 +16,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 io.on('connection', socket => {
   socket.on('message', message => {
-    console.log(message)
     socket.broadcast.emit('message', {
       body: message.body,
       name: message.name
