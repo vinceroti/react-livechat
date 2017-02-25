@@ -20,7 +20,7 @@ io.on('connection', socket => {
       body: message.body,
       name: message.name
     });
-  })
-})
+  });
+});
 
 server.listen(process.env.PORT || 3000);

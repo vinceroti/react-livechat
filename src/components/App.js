@@ -14,7 +14,9 @@ class App extends React.Component {
 
   componentDidMount() {
     this.socket = io('/') ;// connected to root of web server
+
     this.socket.on('message', message => {
+      this.welcomeNote = null;
       this.setState({ messages: [message, ...this.state.messages] }) ;//listener for new messages
     });
   }
@@ -30,6 +32,7 @@ class App extends React.Component {
     const body = e.target.value;
     const name = this.state.name;
     if (e.keyCode === 13 && body) {
+      this.welcomeNote = null;
       const message = { body, name };
       this.setState({ messages: [message, ...this.state.messages] });
       this.socket.emit('message', message);
@@ -58,7 +61,6 @@ class App extends React.Component {
         <br/>
         <Well className='chat'>
           {messages}
-          <li className='no-bullets'>Welcome {this.state.name}!</li>
         </Well>
       </main>
     );
