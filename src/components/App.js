@@ -13,10 +13,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.socket = io('/') ;// connected to root of web server
+    this.socket = io('/');// connected to root of web server
 
     this.socket.on('message', message => {
-      this.welcomeNote = null;
       this.setState({ messages: [message, ...this.state.messages] }) ;//listener for new messages
     });
   }
@@ -31,9 +30,9 @@ class App extends React.Component {
   handleMessage(e) {
     const body = e.target.value;
     const name = this.state.name;
+    const time = this.currentTime();
     if (e.keyCode === 13 && body) {
-      this.welcomeNote = null;
-      const message = { body, name };
+      const message = { time, body, name };
       this.setState({ messages: [message, ...this.state.messages] });
       this.socket.emit('message', message);
       e.target.value = '';
@@ -47,9 +46,9 @@ class App extends React.Component {
   }
 
   render() {
+
     const messages = this.state.messages.map((message, index) => {
-      const time = this.currentTime();
-      return ( <li className='no-bullets' key={index}>{time} - <b>{message.name}: </b>{message.body}</li> );
+      return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
     });
     return (
       <main>
@@ -61,6 +60,7 @@ class App extends React.Component {
         <br/>
         <Well className='chat'>
           {messages}
+          <li ref={(element) => { this.welcomeNote = element;}} className='no-bullets'>Welcome {this.state.name}!</li>
         </Well>
       </main>
     );
