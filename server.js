@@ -5,6 +5,10 @@ const socketIo = require('socket.io');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackConfig = require('./webpack.config.js');
+const MongoClient = require('mongodb').MongoClient;
+require('dotenv').config();
+
+// to learn more about express, https://zellwk.com/blog/crud-express-mongodb/
 
 const app = express();
 const server = http.createServer(app);
@@ -21,7 +25,22 @@ io.on('connection', socket => {
       body: message.body,
       name: message.name
     });
+
+    db.collection('chat').save(message, (err, result) => {
+      if (err) return console.log(err);
+
+      console.log('saved to database');
+    });
   });
 });
 
-server.listen(process.env.PORT || 3000);
+var db;
+
+MongoClient.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds161029.mlab.com:61029/express-chat-app`, (err, database) => {
+  if (err) { return console.log(err); }
+
+  db = database;
+  server.listen(process.env.PORT || 3000);
+});
+
+
