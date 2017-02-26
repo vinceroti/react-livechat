@@ -21,9 +21,10 @@ class App extends React.Component {
   }
 
   handleName(e) {
-    if (e.keyCode === 13 && e.target.value ) {
+    if (e.target.value ) {
       this.setState({ name: e.target.value });
-      e.target.value = '';
+    } else {
+      this.setState({ name: 'User' });
     }
   }
 
