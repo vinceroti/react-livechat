@@ -28,8 +28,6 @@ io.on('connection', socket => {
 
     db.collection('chat').save(message, (err, result) => {
       if (err) return console.log(err);
-
-      console.log('saved to database');
     });
   });
 });
@@ -50,3 +48,10 @@ app.get('/index', (req, res) => {
     res.json({ results });
   });
 });
+
+app.delete('/index', (req, res) => {
+  db.collection('chat').remove(function(err, results) {
+    res.json({ results });
+  });
+});
+

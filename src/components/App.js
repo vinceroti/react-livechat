@@ -32,8 +32,20 @@ class App extends React.Component {
   }
 
   handleName(e) {
-    if (e.target.value ) {
-      this.setState({ name: e.target.value });
+    e.persist(); // allows to event cause of async
+    let nameValue =  e.target.value;
+    var self = this;
+    if (e.target.value === 'clearthechat' ) {
+      axios.delete('/index')
+        .then(function (response) {
+          self.setState({ messages: [], name: 'User' });
+          e.target.value = '';
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else if (nameValue) {
+      this.setState({ name: nameValue });
     } else {
       this.setState({ name: 'User' });
     }
