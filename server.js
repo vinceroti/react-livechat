@@ -44,3 +44,9 @@ MongoClient.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds1
 });
 
 
+
+app.get('/index', (req, res) => {
+  db.collection('chat').find().toArray(function(err, results) {
+    res.json({ results });
+  });
+});

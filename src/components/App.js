@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 import { FormGroup, FormControl, Well } from 'react-bootstrap';
+import axios from 'axios';
 
 
 class App extends React.Component {
@@ -14,6 +15,16 @@ class App extends React.Component {
 
   componentDidMount() {
     this.socket = io('/');// connected to root of web server
+    var self = this;
+
+    axios.get('/index')
+      .then(function (response) {
+        const dbData = response.data.results.reverse();
+        self.setState({ messages: dbData });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
     this.socket.on('message', message => {
       this.setState({ messages: [message, ...this.state.messages] }) ;//listener for new messages
