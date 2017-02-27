@@ -49,7 +49,7 @@ app.get('/index', (req, res) => {
   });
 });
 
-app.delete('/index', (req, res) => {
+app.delete('/', (req, res) => {
   db.collection('chat').remove(function(err, results) {
     res.json({ results });
   });

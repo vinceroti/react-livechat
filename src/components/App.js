@@ -36,7 +36,7 @@ class App extends React.Component {
     let nameValue =  e.target.value;
     var self = this;
     if (e.target.value === 'clearthechat' ) {
-      axios.delete('/index')
+      axios.delete('/')
         .then(function (response) {
           self.setState({ messages: [], name: 'User' });
           e.target.value = '';
