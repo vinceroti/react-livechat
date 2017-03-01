@@ -8,7 +8,7 @@ import axios from 'axios';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { name: 'User', messages: [] };
+    this.state = { name: 'User', messages: [], userTyping: null };
     this.handleName = this.handleName.bind(this);
     this.handleMessage = this.handleMessage.bind(this);
   }
@@ -51,23 +51,29 @@ class App extends React.Component {
     }
   }
 
-  handleMessage(e) {
-    const body = e.target.value;
-    const name = this.state.name;
-    const time = this.currentTime();
-    if (e.keyCode === 13 && body) {
-      const message = { time, body, name };
-      this.setState({ messages: [message, ...this.state.messages] });
-      this.socket.emit('message', message);
-      e.target.value = '';
-    }
-  }
-
   currentTime() {
     let date = new Date().toLocaleTimeString();
     date = date.slice(0,date.length -3);
     return date;
   }
+
+  handleMessage(e) {
+    const body = e.target.value;
+    const name = this.state.name;
+    const time = this.currentTime();
+
+    if (e.keyCode === 13 && body) {
+      const message = { time, body, name };
+      this.setState({ messages: [message, ...this.state.messages] });
+      this.socket.emit('message', message);
+      e.target.value = '';
+    } else if (body) {
+      this.setState({ userTyping: `${this.state.name} is typing...`});
+    } else {
+      this.setState({ userTyping: null });
+    }
+  }
+
 
   render() {
 
@@ -83,6 +89,7 @@ class App extends React.Component {
         <FormControl className='input' type='text' placeholder='Enter Message' onKeyUp={this.handleMessage} />
         <br/>
         <Well className='chat'>
+          {this.state.userTyping}
           {messages}
           <li ref={(element) => { this.welcomeNote = element;}} className='no-bullets'>Welcome {this.state.name}!</li>
         </Well>
