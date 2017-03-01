@@ -28,6 +28,11 @@ class App extends React.Component {
 
     this.socket.on('message', message => {
       this.setState({ messages: [message, ...this.state.messages] }) ;//listener for new messages
+      this.setState({ userTyping: null });
+    });
+
+    this.socket.on('userTyping', userTyping => {
+      this.setState({ userTyping: `${userTyping} is typing...` }) ;//listener for new messages
     });
   }
 
@@ -66,9 +71,11 @@ class App extends React.Component {
       const message = { time, body, name };
       this.setState({ messages: [message, ...this.state.messages] });
       this.socket.emit('message', message);
+      this.setState({ userTyping: null });
       e.target.value = '';
     } else if (body) {
       this.setState({ userTyping: `${this.state.name} is typing...`});
+      this.socket.emit('userTyping', this.state.name);
     } else {
       this.setState({ userTyping: null });
     }

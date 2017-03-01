@@ -26,9 +26,14 @@ io.on('connection', socket => {
       name: message.name
     });
 
-    db.collection('chat').save(message, (err, result) => {
+    db.collection('chat').save(message, (err) => {
       if (err) return console.log(err);
     });
+  });
+
+
+  socket.on('userTyping', userTyping => {
+    socket.broadcast.emit('userTyping', userTyping);
   });
 });
 
