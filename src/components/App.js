@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
-import { FormGroup, FormControl, Well } from 'react-bootstrap';
+import { FormControl, Well } from 'react-bootstrap';
 import axios from 'axios';
+import NameForm from './NameForm';
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { name: 'User', messages: [], userTyping: null };
-    this.handleName = this.handleName.bind(this);
     this.handleMessage = this.handleMessage.bind(this);
+    this.changeName = this.changeName.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +29,7 @@ class App extends React.Component {
 
     this.socket.on('message', message => {
       this.setState({ messages: [message, ...this.state.messages] }) ;//listener for new messages
+
       this.setState({ userTyping: null });
     });
 
@@ -36,24 +38,8 @@ class App extends React.Component {
     });
   }
 
-  handleName(e) {
-    e.persist(); // allows to event cause of async
-    let nameValue =  e.target.value;
-    var self = this;
-    if (e.target.value === 'clearthechat' ) {
-      axios.delete('/')
-        .then(function (response) {
-          self.setState({ messages: [], name: 'User' });
-          e.target.value = '';
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    } else if (nameValue) {
-      this.setState({ name: nameValue });
-    } else {
-      this.setState({ name: 'User' });
-    }
+  changeName(name){
+    this.setState({ name:  name });
   }
 
   currentTime() {
@@ -91,8 +77,7 @@ class App extends React.Component {
       <main>
         <h1><b>Simple Chat</b></h1>
         <h4>Name set as: <b>{this.state.name}</b></h4>
-
-        <FormControl className='input' type='text' placeholder='Enter Name' onKeyUp={this.handleName} />
+        <NameForm changeName={this.changeName}/>
         <FormControl className='input' type='text' placeholder='Enter Message' onKeyUp={this.handleMessage} />
         <br/>
         <Well className='chat'>

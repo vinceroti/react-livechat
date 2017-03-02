@@ -29,6 +29,7 @@ io.on('connection', socket => {
     db.collection('chat').save(message, (err) => {
       if (err) return console.log(err);
     });
+    console.log(io.engine.clientsCount);
   });
 
 
