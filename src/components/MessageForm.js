@@ -8,16 +8,10 @@ class MessageForm extends React.Component {
     this.handleMessage = this.handleMessage.bind(this);
   }
 
-  currentTime() {
-    let date = new Date().toLocaleTimeString();
-    date = date.slice(0,date.length -3);
-    return date;
-  }
-
   handleMessage(e) {
     const body = e.target.value;
     const name = this.props.name;
-    const time = this.currentTime();
+    const time = new Date().toUTCString();
 
     if (e.keyCode === 13 && body) {
       const message = { time, body, name };

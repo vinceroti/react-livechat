@@ -12,6 +12,7 @@ class App extends React.Component {
     super(props);
     this.state = { name: 'User', messages: [], userTyping: null };
     this.changeParentState = this.changeParentState.bind(this);
+    this.mapNewTime = this.mapNewTime.bind(this);
   }
 
   componentDidMount() {
@@ -20,7 +21,8 @@ class App extends React.Component {
 
     axios.get('/index')
       .then(function (response) {
-        const dbData = response.data.results.reverse();
+        let dbData = response.data.results.reverse();
+        self.mapNewTime(dbData);
         self.setState({ messages: dbData });
       })
       .catch(function (error) {
@@ -28,23 +30,37 @@ class App extends React.Component {
       });
 
     this.socket.on('message', message => {
+      message.time = self.convertToLocaleTime(message.time);
       this.setState({ messages: [message, ...this.state.messages] }) ;//listener for new messages
 
       this.setState({ userTyping: null });
     });
 
     this.socket.on('userTyping', userTyping => {
-      this.setState({ userTyping: `${userTyping} is typing...` }) ;//listener for new messages
+      this.setState({ userTyping: userTyping }) ;//listener for new messages
     });
   }
 
-  changeParentState(state, value){
-    this.setState({ [state]:  value });
+  changeParentState(state, value) { //changes state of this app and sends out data via sockets
     if (state === 'messages') {
       this.socket.emit('message', value[0]);
+      value[0].time = this.convertToLocaleTime(value[0].time);
+      this.setState({ [state]:  value });
     } else if (state === 'userTyping') {
       this.socket.emit('userTyping', value);
+      this.setState({ [state]:  value });
     }
+  }
+
+  mapNewTime(messages) {
+    let self = this;
+    return messages = messages.map(function(message) {
+      return message.time = self.convertToLocaleTime(message.time);
+    });
+  }
+
+  convertToLocaleTime(date) {
+    return new Date(date).toLocaleTimeString();
   }
 
   render() {
@@ -57,7 +73,6 @@ class App extends React.Component {
         <h4>Name set as: <b>{this.state.name}</b></h4>
         <NameForm changeParentState={this.changeParentState}/>
         <MessageForm changeParentState={this.changeParentState} name={this.state.name} messages={this.state.messages}/>
-{/*        <FormControl className='input' type='text' placeholder='Enter Message' onKeyUp={this.handleMessage} />*/}
         <br/>
         <Well className='chat'>
           {this.state.userTyping}
