@@ -4,14 +4,14 @@ import io from 'socket.io-client';
 import { FormControl, Well } from 'react-bootstrap';
 import axios from 'axios';
 import NameForm from './NameForm';
+import MessageForm from './MessageForm';
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { name: 'User', messages: [], userTyping: null };
-    this.handleMessage = this.handleMessage.bind(this);
-    this.changeName = this.changeName.bind(this);
+    this.changeParentState = this.changeParentState.bind(this);
   }
 
   componentDidMount() {
@@ -38,38 +38,16 @@ class App extends React.Component {
     });
   }
 
-  changeName(name){
-    this.setState({ name:  name });
-  }
-
-  currentTime() {
-    let date = new Date().toLocaleTimeString();
-    date = date.slice(0,date.length -3);
-    return date;
-  }
-
-  handleMessage(e) {
-    const body = e.target.value;
-    const name = this.state.name;
-    const time = this.currentTime();
-
-    if (e.keyCode === 13 && body) {
-      const message = { time, body, name };
-      this.setState({ messages: [message, ...this.state.messages] });
-      this.socket.emit('message', message);
-      this.setState({ userTyping: null });
-      e.target.value = '';
-    } else if (body) {
-      this.setState({ userTyping: `${this.state.name} is typing...`});
-      this.socket.emit('userTyping', this.state.name);
-    } else {
-      this.setState({ userTyping: null });
+  changeParentState(state, value){
+    this.setState({ [state]:  value });
+    if (state === 'messages') {
+      this.socket.emit('message', value[0]);
+    } else if (state === 'userTyping') {
+      this.socket.emit('userTyping', value);
     }
   }
 
-
   render() {
-
     const messages = this.state.messages.map((message, index) => {
       return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
     });
@@ -77,8 +55,9 @@ class App extends React.Component {
       <main>
         <h1><b>Simple Chat</b></h1>
         <h4>Name set as: <b>{this.state.name}</b></h4>
-        <NameForm changeName={this.changeName}/>
-        <FormControl className='input' type='text' placeholder='Enter Message' onKeyUp={this.handleMessage} />
+        <NameForm changeParentState={this.changeParentState}/>
+        <MessageForm changeParentState={this.changeParentState} name={this.state.name} messages={this.state.messages}/>
+{/*        <FormControl className='input' type='text' placeholder='Enter Message' onKeyUp={this.handleMessage} />*/}
         <br/>
         <Well className='chat'>
           {this.state.userTyping}

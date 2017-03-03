@@ -16,7 +16,7 @@ class NameForm extends React.Component {
     if (e.target.value === 'clearthechat' ) {
       axios.delete('/')
         .then(function () {
-          self.props.changeName('User');
+          self.props.changeParentState('name', 'User');
           alert('Database cleared; if you refresh you will lose chat.');
           e.target.value = '';
         })
@@ -24,9 +24,9 @@ class NameForm extends React.Component {
           console.log(error);
         });
     } else if (nameValue) {
-      this.props.changeName(nameValue);
+      this.props.changeParentState('name', nameValue);
     } else {
-      this.props.changeName('User');
+      this.props.changeParentState('name', 'User');
     }
   }
 
