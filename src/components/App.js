@@ -45,11 +45,10 @@ class App extends React.Component {
     if (state === 'messages') {
       this.socket.emit('message', value[0]);
       value[0].time = this.convertToLocaleTime(value[0].time);
-      this.setState({ [state]:  value });
     } else {
       this.socket.emit([state], value);
-      this.setState({ [state]:  value });
     }
+    this.setState({ [state]:  value });
   }
 
   mapNewTime(messages) {
