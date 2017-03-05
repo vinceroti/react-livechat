@@ -46,8 +46,8 @@ class App extends React.Component {
       this.socket.emit('message', value[0]);
       value[0].time = this.convertToLocaleTime(value[0].time);
       this.setState({ [state]:  value });
-    } else if (state === 'userTyping') {
-      this.socket.emit('userTyping', value);
+    } else {
+      this.socket.emit([state], value);
       this.setState({ [state]:  value });
     }
   }
