@@ -15,7 +15,7 @@ class MessageForm extends React.Component {
 
     if (e.keyCode === 13 && body) {
       const message = { time, body, name };
-      const messages = [message, ...this.props.messages];
+      const messages = [...this.props.messages, message];
       this.props.changeParentState('messages', messages);
       this.props.changeParentState('userTyping', null );
       e.target.value = '';

@@ -9,9 +9,12 @@ main {
 }
 
 .chat {
+  height: 300px;
+  overflow-y: scroll;
   margin: 0px auto;
   width: 50%;
   text-align: left;
+  margin-bottom: 5px;
 }
 
 .no-bullets {
@@ -21,7 +24,7 @@ main {
 .input {
   margin: 0px auto;
   text-align: left;
-  width: 250px;
+  width: 50%;
 }
 
 .input::-webkit-input-placeholder {
@@ -45,6 +48,10 @@ text-align: center;
   }
 
   .chat {
+    width: 300px;
+  }
+
+  .input {
     width: 300px;
   }
 }

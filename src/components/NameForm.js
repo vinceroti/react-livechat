@@ -7,6 +7,12 @@ class NameForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleName = this.handleName.bind(this);
+    this.changeStateAndStorage = this.changeStateAndStorage.bind(this);
+  }
+
+  changeStateAndStorage(key, value) {
+    this.props.changeParentState('name', value);
+    localStorage.setItem('name', value);
   }
 
   handleName(e) {
@@ -24,14 +30,14 @@ class NameForm extends React.Component {
           console.log(error);
         });
     } else if (nameValue) {
-      this.props.changeParentState('name', nameValue);
+      this.changeStateAndStorage('name', nameValue);
     } else {
-      this.props.changeParentState('name', 'User');
+      this.changeStateAndStorage('name', 'User');
     }
   }
 
   render() {
-    return (<FormControl className='input' type='text' placeholder='Enter Name' onKeyUp={this.handleName} />);
+    return (<FormControl defaultValue={this.props.name}className='input' type='text' placeholder='Enter Name' onKeyUp={this.handleName} />);
   }
 
 }
