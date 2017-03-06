@@ -11,38 +11,39 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     const name = localStorage.getItem('name');
-    this.state = { name: name ? name : 'User', messages: [], userTyping: null };
+    this.state = { name: name ? name : 'User', messages: [], typing: null };
     this.changeParentState = this.changeParentState.bind(this);
     this.mapNewTime = this.mapNewTime.bind(this);
   }
 
-
+  scrollToBottom() {
+    let chat = document.querySelector('.chat');
+    let height = chat.scrollHeight;
+    chat.scrollTop = height;
+  }
 
   componentDidMount() {
     this.socket = io('/');// connected to root of web server
     var self = this;
-
     axios.get('/index')
       .then(function (response) {
         let dbData = response.data.results;
         self.mapNewTime(dbData);
         self.setState({ messages: dbData });
+        self.scrollToBottom();
       })
       .catch(function (error) {
         console.log(error);
       });
-
     this.socket.on('message', message => {
       message.time = self.convertToLocaleTime(message.time);
       this.setState({ messages: [...this.state.messages, message] }) ;//listener for new messages
-
-      this.setState({ userTyping: null });
+      this.setState({ typing: null });
+      self.scrollToBottom();
     });
-
-    this.socket.on('userTyping', userTyping => {
-      this.setState({ userTyping: userTyping }) ;//listener for new messages
+    this.socket.on('typing', typing => {
+      this.setState({ typing: typing }) ;//listener for new messages
     });
-
   }
 
   changeParentState(state, value) { //changes state of this app and sends out data via sockets
@@ -50,6 +51,7 @@ class App extends React.Component {
       let last = value.length - 1;
       this.socket.emit('message', value[last]);
       value[last].time = this.convertToLocaleTime(value[last].time);
+      this.scrollToBottom();
     } else {
       this.socket.emit([state], value);
     }
@@ -78,8 +80,9 @@ class App extends React.Component {
         <Well className='chat'>
           <li ref={(element) => { this.welcomeNote = element;}} className='no-bullets'>Welcome {this.state.name}!</li>
           {messages}
-          {this.state.userTyping}
         </Well>
+        {this.state.typing}
+        <br/>
         <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
         <MessageForm changeParentState={this.changeParentState} name={this.state.name} messages={this.state.messages}/>
       </main>

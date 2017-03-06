@@ -17,12 +17,12 @@ class MessageForm extends React.Component {
       const message = { time, body, name };
       const messages = [...this.props.messages, message];
       this.props.changeParentState('messages', messages);
-      this.props.changeParentState('userTyping', null );
+      this.props.changeParentState('typing', null );
       e.target.value = '';
     } else if (body) {
-      this.props.changeParentState('userTyping', `${name} is typing...`);
+      this.props.changeParentState('typing', `${name} is typing...`);
     } else {
-      this.props.changeParentState('userTyping', null);
+      this.props.changeParentState('typing', null);
     }
   }
 

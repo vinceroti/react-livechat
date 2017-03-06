@@ -31,8 +31,8 @@ io.on('connection', socket => {
   });
 
 
-  socket.on('userTyping', userTyping => {
-    socket.broadcast.emit('userTyping', userTyping);
+  socket.on('typing', typing => {
+    socket.broadcast.emit('typing', typing);
   });
 });
 
