@@ -55,7 +55,6 @@ class App extends React.Component {
     } else {
       this.socket.emit([state], value);
     }
-    console.log(value)
     this.setState({ [state]:  value });
     this.typingFormatted();
   }
@@ -74,12 +73,14 @@ class App extends React.Component {
   typingFormatted(){
     let typing = this.state.typing;
     let nameString = '';
-    if (this.state.typing.length === 0) {
-      return '';
+    if (typing.length === 0) {
+      return this.setState({typingFormatted: ''});
     }
     for (let i = 0; i < typing.length; i++){
       nameString += typing[i] + ', ';
     }
+
+    nameString = nameString.slice(0, -2);
     this.setState({typingFormatted: `${nameString} is typing...`});
   }
 
