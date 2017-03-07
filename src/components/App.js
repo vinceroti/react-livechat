@@ -11,7 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     const name = localStorage.getItem('name');
-    this.state = { name: name ? name : 'User', messages: [], typing: null };
+    this.state = { name: name ? name : 'User', messages: [], typing: [], typingFormatted: '' };
     this.changeParentState = this.changeParentState.bind(this);
     this.mapNewTime = this.mapNewTime.bind(this);
   }
@@ -38,11 +38,11 @@ class App extends React.Component {
     this.socket.on('message', message => {
       message.time = self.convertToLocaleTime(message.time);
       this.setState({ messages: [...this.state.messages, message] }) ;//listener for new messages
-      this.setState({ typing: null });
       self.scrollToBottom();
     });
     this.socket.on('typing', typing => {
       this.setState({ typing: typing }) ;//listener for new messages
+      this.typingFormatted();
     });
   }
 
@@ -55,7 +55,9 @@ class App extends React.Component {
     } else {
       this.socket.emit([state], value);
     }
+    console.log(value)
     this.setState({ [state]:  value });
+    this.typingFormatted();
   }
 
   mapNewTime(messages) {
@@ -67,6 +69,18 @@ class App extends React.Component {
 
   convertToLocaleTime(date) {
     return new Date(date).toLocaleTimeString();
+  }
+
+  typingFormatted(){
+    let typing = this.state.typing;
+    let nameString = '';
+    if (this.state.typing.length === 0) {
+      return '';
+    }
+    for (let i = 0; i < typing.length; i++){
+      nameString += typing[i] + ', ';
+    }
+    this.setState({typingFormatted: `${nameString} is typing...`});
   }
 
   render() {
@@ -81,10 +95,11 @@ class App extends React.Component {
           <li ref={(element) => { this.welcomeNote = element;}} className='no-bullets'>Welcome {this.state.name}!</li>
           {messages}
         </Well>
-        {this.state.typing}
+        {this.state.typingFormatted}
         <br/>
         <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
-        <MessageForm changeParentState={this.changeParentState} name={this.state.name} messages={this.state.messages}/>
+        <MessageForm changeParentState={this.changeParentState}
+        typing={this.state.typing} name={this.state.name} messages={this.state.messages}/>
       </main>
     );
   }
