@@ -6,39 +6,7 @@ import es6Promise from 'es6-promise';
 import axios from 'axios';
 import NameForm from './NameForm';
 import MessageForm from './MessageForm';
-
-function requestNotification(){
-  if (!('Notification' in window)) {
-    return;
-  }
-  else if (Notification.permission !== 'denied') {
-    Notification.requestPermission();
-  }
-}
-
-function spawnNotification(title,body){
-  let options = {
-    body: body,
-    icon: 'http://www.iconsfind.com/wp-content/uploads/2015/10/20151012_561bac7cdb45b.png'
-  };
-  new Notification(title,options);
-}
-function scrollToBottom() {
-  let chat = document.querySelector('.chat');
-  let height = chat.scrollHeight;
-  chat.scrollTop = height;
-}
-
-function convertToLocaleTime(date) {
-  return new Date(date).toLocaleTimeString();
-}
-
-function mapNewTime(messages) {
-  return messages = messages.map(function(message) {
-    return convertToLocaleTime(message.time);
-  });
-}
-
+import utils from '../modules/utils';
 
 
 class App extends React.Component {
@@ -51,24 +19,24 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    requestNotification();
+    utils.requestNotification();
     this.socket = io('/');// connected to root of web server
     var self = this;
     axios.get('/index')
       .then(function (response) {
         let dbData = response.data.results;
-        mapNewTime(dbData);
+        utils.mapNewTime(dbData);
         self.setState({ messages: dbData });
-        scrollToBottom();
+        utils.scrollToBottom('.chat');
       })
       .catch(function (error) {
         console.log(error);
       });
     this.socket.on('message', message => {
-      message.time = convertToLocaleTime(message.time);
+      message.time = utils.convertToLocaleTime(message.time);
       this.setState({ messages: [...this.state.messages, message] }) ;//listener for new messages
-      scrollToBottom();
-      spawnNotification(`${message.name} writes:`,message.body);
+      utils.scrollToBottom('.chat');
+      utils.spawnNotification(`${message.name} writes:`,message.body);
     });
     this.socket.on('typing', typing => {
       this.setState({ typing: typing }) ;//listener for new messages
@@ -80,14 +48,15 @@ class App extends React.Component {
     if (state === 'messages') {
       let last = value.length - 1;
       this.socket.emit('message', value[last]);
-      value[last].time = convertToLocaleTime(value[last].time);
-      scrollToBottom();
+      value[last].time = utils.convertToLocaleTime(value[last].time);
+      utils.scrollToBottom('.chat');
     } else {
       this.socket.emit([state], value);
     }
     this.setState({ [state]:  value });
     this.typingFormatted();
   }
+
 
   typingFormatted(){
     let typing = this.state.typing;
