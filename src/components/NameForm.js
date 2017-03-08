@@ -18,14 +18,12 @@ class NameForm extends React.Component {
   handleName(e) {
     e.persist(); // allows to event cause of async
     let nameValue =  e.target.value;
-    var self = this;
+    this.props.changeParentState('name', 'User');
     if (e.target.value === 'clearthechat' ) {
+      e.target.value = 'User';
+      alert('Database cleared; if you refresh you will lose chat.');
+      this.changeStateAndStorage('name', 'User');
       axios.delete('/')
-        .then(function () {
-          self.props.changeParentState('name', 'User');
-          alert('Database cleared; if you refresh you will lose chat.');
-          e.target.value = '';
-        })
         .catch(function (error) {
           console.log(error);
         });

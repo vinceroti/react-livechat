@@ -8,9 +8,12 @@ class MessageForm extends React.Component {
     this.handleMessage = this.handleMessage.bind(this);
   }
 
-  findAndRemove(){
-    let i = this.props.typing.indexOf(this.props.name);
-    return this.props.typing.splice(i, 1);
+  findAndRemove(array, name){
+    let i = array.indexOf(name);
+    if (i !== -1){
+      array.splice(i, 1);
+    }
+    return array;
   }
 
   handleMessage(e) {
@@ -22,16 +25,16 @@ class MessageForm extends React.Component {
     if (e.keyCode === 13 && body) {
       const message = { time, body, name };
       const messages = [...this.props.messages, message];
-      this.props.changeParentState('messages', messages);
-      this.props.changeParentState('typing', this.findAndRemove() );
       e.target.value = '';
+      this.props.changeParentState('messages', messages);
+      this.props.changeParentState('typing', this.findAndRemove(typing, name) );
     } else if (body) {
       if (!typing.includes(name)){
         typing.push(name);
       }
       this.props.changeParentState('typing', typing);
     } else {
-      this.props.changeParentState('typing', this.findAndRemove());
+      this.props.changeParentState('typing', this.findAndRemove(typing, name));
     }
   }
 
