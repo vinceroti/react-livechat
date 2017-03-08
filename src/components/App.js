@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
 import { FormControl, Well } from 'react-bootstrap';
+import es6Promise from 'es6-promise';
 import axios from 'axios';
 import NameForm from './NameForm';
 import MessageForm from './MessageForm';
@@ -15,7 +16,6 @@ class App extends React.Component {
     this.changeParentState = this.changeParentState.bind(this);
     this.mapNewTime = this.mapNewTime.bind(this);
   }
-
 
   spawnNotification(title,body) {
     let options = {
@@ -36,6 +36,7 @@ class App extends React.Component {
       Notification.requestPermission();
     }
     this.socket = io('/');// connected to root of web server
+    es6Promise.polyfill();
     var self = this;
     axios.get('/index')
       .then(function (response) {
