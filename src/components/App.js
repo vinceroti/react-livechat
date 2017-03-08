@@ -10,11 +10,21 @@ import MessageForm from './MessageForm';
 
 class App extends React.Component {
   constructor(props) {
+    es6Promise.polyfill();
     super(props);
     const name = localStorage.getItem('name');
     this.state = { name: name ? name : 'User', messages: [], typing: [], typingFormatted: '' };
     this.changeParentState = this.changeParentState.bind(this);
     this.mapNewTime = this.mapNewTime.bind(this);
+  }
+
+  requestNotification() {
+    if (!('Notification' in window)) {
+      return;
+    }
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
   }
 
   spawnNotification(title,body) {
@@ -32,11 +42,8 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (Notification.permission !== 'denied') {
-      Notification.requestPermission();
-    }
+    this.requestNotification();
     this.socket = io('/');// connected to root of web server
-    es6Promise.polyfill();
     var self = this;
     axios.get('/index')
       .then(function (response) {
