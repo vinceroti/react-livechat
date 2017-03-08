@@ -7,6 +7,39 @@ import axios from 'axios';
 import NameForm from './NameForm';
 import MessageForm from './MessageForm';
 
+function requestNotification(){
+  if (!('Notification' in window)) {
+    return;
+  }
+  else if (Notification.permission !== 'denied') {
+    Notification.requestPermission();
+  }
+}
+
+function spawnNotification(title,body){
+  let options = {
+    body: body,
+    icon: 'http://www.iconsfind.com/wp-content/uploads/2015/10/20151012_561bac7cdb45b.png'
+  };
+  new Notification(title,options);
+}
+function scrollToBottom() {
+  let chat = document.querySelector('.chat');
+  let height = chat.scrollHeight;
+  chat.scrollTop = height;
+}
+
+function convertToLocaleTime(date) {
+  return new Date(date).toLocaleTimeString();
+}
+
+function mapNewTime(messages) {
+  return messages = messages.map(function(message) {
+    return convertToLocaleTime(message.time);
+  });
+}
+
+
 
 class App extends React.Component {
   constructor(props) {
@@ -15,51 +48,27 @@ class App extends React.Component {
     const name = localStorage.getItem('name');
     this.state = { name: name ? name : 'User', messages: [], typing: [], typingFormatted: '' };
     this.changeParentState = this.changeParentState.bind(this);
-    this.mapNewTime = this.mapNewTime.bind(this);
-  }
-
-  requestNotification() {
-    if (!('Notification' in window)) {
-      return;
-    }
-    else if (Notification.permission !== 'denied') {
-      Notification.requestPermission();
-    }
-  }
-
-  spawnNotification(title,body) {
-    let options = {
-      body: body,
-      icon: 'http://www.iconsfind.com/wp-content/uploads/2015/10/20151012_561bac7cdb45b.png'
-    };
-    new Notification(title,options);
-  }
-
-  scrollToBottom() {
-    let chat = document.querySelector('.chat');
-    let height = chat.scrollHeight;
-    chat.scrollTop = height;
   }
 
   componentDidMount() {
-    this.requestNotification();
+    requestNotification();
     this.socket = io('/');// connected to root of web server
     var self = this;
     axios.get('/index')
       .then(function (response) {
         let dbData = response.data.results;
-        self.mapNewTime(dbData);
+        mapNewTime(dbData);
         self.setState({ messages: dbData });
-        self.scrollToBottom();
+        scrollToBottom();
       })
       .catch(function (error) {
         console.log(error);
       });
     this.socket.on('message', message => {
-      message.time = self.convertToLocaleTime(message.time);
+      message.time = convertToLocaleTime(message.time);
       this.setState({ messages: [...this.state.messages, message] }) ;//listener for new messages
-      this.scrollToBottom();
-      this.spawnNotification(`${message.name} writes:`,message.body);
+      scrollToBottom();
+      spawnNotification(`${message.name} writes:`,message.body);
     });
     this.socket.on('typing', typing => {
       this.setState({ typing: typing }) ;//listener for new messages
@@ -71,24 +80,13 @@ class App extends React.Component {
     if (state === 'messages') {
       let last = value.length - 1;
       this.socket.emit('message', value[last]);
-      value[last].time = this.convertToLocaleTime(value[last].time);
-      this.scrollToBottom();
+      value[last].time = convertToLocaleTime(value[last].time);
+      scrollToBottom();
     } else {
       this.socket.emit([state], value);
     }
     this.setState({ [state]:  value });
     this.typingFormatted();
-  }
-
-  mapNewTime(messages) {
-    let self = this;
-    return messages = messages.map(function(message) {
-      return message.time = self.convertToLocaleTime(message.time);
-    });
-  }
-
-  convertToLocaleTime(date) {
-    return new Date(date).toLocaleTimeString();
   }
 
   typingFormatted(){
