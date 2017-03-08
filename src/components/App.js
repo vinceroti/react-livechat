@@ -16,6 +16,23 @@ class App extends React.Component {
     this.mapNewTime = this.mapNewTime.bind(this);
   }
 
+  requestNotification() {
+    if (!('Notification' in window)) {
+      alert('This browser does not support desktop notification');
+    }
+    else if (Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
+  }
+
+  spawnNotification(title,body) {
+    let options = {
+      body: body,
+      icon: 'http://www.iconsfind.com/wp-content/uploads/2015/10/20151012_561bac7cdb45b.png'
+    };
+    new Notification(title,options);
+  }
+
   scrollToBottom() {
     let chat = document.querySelector('.chat');
     let height = chat.scrollHeight;
@@ -23,6 +40,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    this.requestNotification();
     this.socket = io('/');// connected to root of web server
     var self = this;
     axios.get('/index')
@@ -38,7 +56,8 @@ class App extends React.Component {
     this.socket.on('message', message => {
       message.time = self.convertToLocaleTime(message.time);
       this.setState({ messages: [...this.state.messages, message] }) ;//listener for new messages
-      self.scrollToBottom();
+      this.scrollToBottom();
+      this.spawnNotification(`${message.name} writes:`,message.body);
     });
     this.socket.on('typing', typing => {
       this.setState({ typing: typing }) ;//listener for new messages
