@@ -16,14 +16,6 @@ class App extends React.Component {
     this.mapNewTime = this.mapNewTime.bind(this);
   }
 
-  requestNotification() {
-    if (!('Notification' in window)) {
-      alert('This browser does not support desktop notification');
-    }
-    else if (Notification.permission !== 'denied') {
-      Notification.requestPermission();
-    }
-  }
 
   spawnNotification(title,body) {
     let options = {
@@ -40,7 +32,9 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.requestNotification();
+    if (Notification.permission !== 'denied') {
+      Notification.requestPermission();
+    }
     this.socket = io('/');// connected to root of web server
     var self = this;
     axios.get('/index')
