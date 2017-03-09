@@ -7,6 +7,14 @@ function requestNotification() {
   }
 }
 
+function findAndRemove(array, name){
+  let i = array.indexOf(name);
+  if (i !== -1){
+    array.splice(i, 1);
+  }
+  return array;
+}
+
 function spawnNotification(title,body) {
   let options = {
     body: body,
@@ -36,7 +44,8 @@ const utils = {
   spawnNotification,
   scrollToBottom,
   mapNewTime,
-  convertToLocaleTime
+  convertToLocaleTime,
+  findAndRemove
 };
 
 export default utils;

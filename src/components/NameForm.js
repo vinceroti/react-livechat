@@ -11,14 +11,12 @@ class NameForm extends React.Component {
   }
 
   changeStateAndStorage(key, value) {
-    this.props.changeParentState('name', value);
-    localStorage.setItem('name', value);
+    this.props.changeParentState(key, value);
+    localStorage.setItem(key, value);
   }
 
   handleName(e) {
-    e.persist(); // allows to event cause of async
     let nameValue =  e.target.value;
-    this.props.changeParentState('name', 'User');
     if (e.target.value === 'clearthechat' ) {
       e.target.value = 'User';
       alert('Database cleared; if you refresh you will lose chat.');
@@ -29,6 +27,8 @@ class NameForm extends React.Component {
         });
     } else if (nameValue) {
       this.changeStateAndStorage('name', nameValue);
+      e = document.querySelector('#message-form');
+      e.value = null;
     } else {
       this.changeStateAndStorage('name', 'User');
     }

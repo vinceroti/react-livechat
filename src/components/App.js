@@ -40,7 +40,7 @@ class App extends React.Component {
     });
     this.socket.on('typing', typing => {
       this.setState({ typing: typing }) ;//listener for new messages
-      this.typingFormatted();
+      this.typingFormatted(typing);
     });
   }
 
@@ -50,25 +50,32 @@ class App extends React.Component {
       this.socket.emit('message', value[last]);
       value[last].time = utils.convertToLocaleTime(value[last].time);
       utils.scrollToBottom('.chat');
+    } else if( state === 'name') {
+      let typing = utils.findAndRemove(this.state.typing,this.state.name);
+      this.setState({ [state]:  value });
+      this.typingFormatted(typing);
+      this.socket.emit([state], value);
+      this.socket.emit('typing', typing);
     } else {
       this.socket.emit([state], value);
+      this.setState({ [state]:  value });
+      this.typingFormatted(value);
     }
-    console.log(value);
-    this.setState({ [state]:  value });
-    this.typingFormatted(value);
   }
 
 
   typingFormatted(value){
-    let typing = value ? value : this.state.typing;
+    let typing = value;
     let nameString = '';
+    if (!Array.isArray(typing)){
+      typing = typing.split(' ');
+    }
     if (typing.length === 0) {
       return this.setState({typingFormatted: ''});
     }
     for (let i = 0; i < typing.length; i++){
       nameString += typing[i] + ', ';
     }
-
     nameString = nameString.slice(0, -2);
     this.setState({typingFormatted: `${nameString} is typing...`});
   }
@@ -88,7 +95,7 @@ class App extends React.Component {
         {this.state.typingFormatted}
         <br/>
         <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
-        <MessageForm changeParentState={this.changeParentState}
+        <MessageForm findAndRemove={utils.findAndRemove} changeParentState={this.changeParentState}
         typing={this.state.typing} name={this.state.name} messages={this.state.messages}/>
       </main>
     );
