@@ -52,15 +52,14 @@ class App extends React.Component {
       utils.scrollToBottom('.chat');
     } else if( state === 'name') {
       let typing = utils.findAndRemove(this.state.typing,this.state.name);
-      this.setState({ [state]:  value });
       this.typingFormatted(typing);
       this.socket.emit([state], value);
       this.socket.emit('typing', typing);
     } else {
       this.socket.emit([state], value);
-      this.setState({ [state]:  value });
       this.typingFormatted(value);
     }
+    this.setState({ [state]:  value });
   }
 
 
