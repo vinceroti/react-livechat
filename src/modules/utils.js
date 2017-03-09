@@ -20,7 +20,7 @@ function spawnNotification(title,body) {
     body: body,
     icon: 'http://www.iconsfind.com/wp-content/uploads/2015/10/20151012_561bac7cdb45b.png'
   };
-  new Notification(title,options);
+  return new Notification(title,options);
 }
 
 function scrollToBottom(query) {

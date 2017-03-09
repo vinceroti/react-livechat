@@ -36,7 +36,8 @@ class App extends React.Component {
       message.time = utils.convertToLocaleTime(message.time);
       this.setState({ messages: [...this.state.messages, message] }) ;//listener for new messages
       utils.scrollToBottom('.chat');
-      utils.spawnNotification(`${message.name} writes:`,message.body);
+      if (this.notification) {this.notification.close();}
+      this.notification = utils.spawnNotification(`${message.name} writes:`,message.body);
     });
     this.socket.on('typing', typing => {
       this.setState({ typing: typing }) ;//listener for new messages
