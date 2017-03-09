@@ -31,7 +31,6 @@ class NameForm extends React.Component {
       e.value = null;
     } else {
       this.changeStateAndStorage('name', 'User');
-      e.target.value = 'User';
     }
   }
 
