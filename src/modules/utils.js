@@ -18,9 +18,13 @@ function findAndRemove(array, name){
 function spawnNotification(title,body) {
   let options = {
     body: body,
-    icon: 'http://www.iconsfind.com/wp-content/uploads/2015/10/20151012_561bac7cdb45b.png'
+    icon: 'http://www.iconsfind.com/wp-content/uploads/2015/10/20151012_561bac7cdb45b.png',
   };
-  return new Notification(title,options);
+  let notification = new Notification(title,options);
+  notification.onshow = () => {
+    new Audio('../../aim.mp3').play();
+  };
+  return notification;
 }
 
 function scrollToBottom(query) {
