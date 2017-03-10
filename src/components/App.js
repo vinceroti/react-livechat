@@ -55,11 +55,6 @@ class App extends React.Component {
       let last = value.length - 1;
       this.socket.emit('message', value[last]);
       value[last].time = utils.convertToLocaleTime(value[last].time);
-      this.setState({ [state]:  value });
-      setTimeout(function(){
-        utils.scrollToBottom('.chat');
-      }, 1);
-      return;
     } else if( state === 'name') {
       let typing = utils.findAndRemove(this.state.typing,this.state.name);
       this.typingFormatted(typing);
@@ -72,8 +67,10 @@ class App extends React.Component {
     this.setState({ [state]:  value });
   }
 
-  componentDidUpdate(){
-    utils.scrollToBottom('.chat');
+  componentDidUpdate(prevProps,prevState){
+    if (prevState.messages.length < this.state.messages.length) {
+      utils.scrollToBottom('.chat');
+    }
   }
 
   typingFormatted(value){
