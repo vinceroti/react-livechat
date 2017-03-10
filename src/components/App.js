@@ -42,6 +42,9 @@ class App extends React.Component {
         this.notification.close();
       }
       this.notification = utils.spawnNotification(`${message.name} writes:`,message.body, this.audio);
+      if (this.audio === true) {
+        new Audio('../../aim.mp3').play();
+      }
     });
     this.socket.on('typing', typing => {
       this.setState({ typing: typing }) ;//listener for new messages

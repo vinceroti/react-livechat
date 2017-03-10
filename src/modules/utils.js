@@ -15,18 +15,12 @@ function findAndRemove(array, name){
   return array;
 }
 
-function spawnNotification(title,body,audio) {
+function spawnNotification(title,body) {
   let options = {
     body: body,
     icon: 'http://www.iconsfind.com/wp-content/uploads/2015/10/20151012_561bac7cdb45b.png',
   };
   let notification = new Notification(title,options);
-  if (audio === true) {
-    notification.onshow = () => {
-      new Audio('../../aim.mp3').play();
-    };
-  }
-
   return notification;
 }
 
