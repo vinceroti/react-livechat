@@ -35,7 +35,7 @@ class NameForm extends React.Component {
   }
 
   render() {
-    return (<FormControl defaultValue={this.props.name}className='input' type='text' placeholder='Enter Name' onKeyUp={this.handleName} />);
+    return (<FormControl defaultValue={this.props.name}className='input name-input' type='text' placeholder='Enter Name' onKeyUp={this.handleName} />);
   }
 
 }

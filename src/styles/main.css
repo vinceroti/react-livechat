@@ -9,7 +9,7 @@ main {
 }
 
 .chat {
-  height: 300px;
+  height: 400px;
   overflow-y: scroll;
   margin: 0px auto;
   width: 50%;
@@ -27,19 +27,40 @@ main {
   width: 50%;
 }
 
-.input::-webkit-input-placeholder {
+.button-container {
+  position: absolute;
+  display: inline-block;
+  vertical-align: bottom;
+  margin: 0px auto;
+  font-size: 30px;
+}
+
+.invis-button{
+  outline: none;
+  background: none;
+  border: none;
+}
+
+.name-input, .input::-webkit-input-placeholder {
 text-align: center;
 }
-.input:-moz-placeholder { /* Firefox 18- */
+.name-input, .input:-moz-placeholder { /* Firefox 18- */
  text-align: center;
 }
 
-.input::-moz-placeholder {  /* Firefox 19+ */
+.name-input, .input::-moz-placeholder {  /* Firefox 19+ */
  text-align: center;
 }
 
-.input:-ms-input-placeholder {
+.name-input, .input:-ms-input-placeholder {
  text-align: center;
+}
+
+.name-input {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  margin-bottom: 5px;
 }
 
 @media (max-width: 601px) {
@@ -54,4 +75,9 @@ text-align: center;
   .input {
     width: 300px;
   }
+
+  .name-input {
+    width: 200px;
+  }
+
 }

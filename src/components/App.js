@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
-import { FormControl, Well } from 'react-bootstrap';
+import { Glyphicon, FormControl, Well } from 'react-bootstrap';
 import es6Promise from 'es6-promise';
 import axios from 'axios';
 import NameForm from './NameForm';
@@ -15,7 +15,9 @@ class App extends React.Component {
     super(props);
     const name = localStorage.getItem('name');
     this.state = { name: name ? name : 'User', messages: [], typing: [], typingFormatted: '' };
+    this.audio = true;
     this.changeParentState = this.changeParentState.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -39,7 +41,7 @@ class App extends React.Component {
       if (this.notification) {
         this.notification.close();
       }
-      this.notification = utils.spawnNotification(`${message.name} writes:`,message.body);
+      this.notification = utils.spawnNotification(`${message.name} writes:`,message.body, this.audio);
     });
     this.socket.on('typing', typing => {
       this.setState({ typing: typing }) ;//listener for new messages
@@ -82,6 +84,19 @@ class App extends React.Component {
     this.setState({typingFormatted: `${nameString} is typing...`});
   }
 
+  handleClick(e) {
+    if (e.target.children.length === 0) {
+      let className = e.target.className.split(' ');
+      if (className[1] === 'glyphicon-volume-up') {
+        e.target.className = 'glyphicon glyphicon-volume-off';
+        this.audio = false;
+      } else {
+        e.target.className = 'glyphicon glyphicon-volume-up';
+        this.audio = true;
+      }
+    }
+  }
+
   render() {
     const messages = this.state.messages.map((message, index) => {
       return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
@@ -90,13 +105,15 @@ class App extends React.Component {
       <main>
         <h1><b>Simple Chat</b></h1>
         <h4>Name set as: <b>{this.state.name}</b></h4>
+        <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
+        <div className='button-container'>
+          <button onClick={this.handleClick}className='invis-button'><Glyphicon glyph="volume-up" /></button>
+        </div>
         <Well className='chat'>
           <li ref={(element) => { this.welcomeNote = element;}} className='no-bullets'>Welcome {this.state.name}!</li>
           {messages}
         </Well>
         {this.state.typingFormatted}
-        <br/>
-        <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
         <MessageForm findAndRemove={utils.findAndRemove} changeParentState={this.changeParentState}
         typing={this.state.typing} name={this.state.name} messages={this.state.messages}/>
       </main>
