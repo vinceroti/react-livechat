@@ -25,9 +25,9 @@ function spawnNotification(title,body) {
 }
 
 function scrollToBottom(query) {
-  let chat = document.querySelector(query);
-  let height = chat.scrollHeight;
-  chat.scrollTop = height;
+  let elm = document.querySelector(query);
+  let height = elm.scrollHeight;
+  elm.scrollTop = height;
 }
 
 function mapNewTime(messages) {

@@ -29,7 +29,6 @@ class App extends React.Component {
         let dbData = response.data.results;
         utils.mapNewTime(dbData);
         self.setState({ messages: dbData });
-        utils.scrollToBottom('.chat');
       })
       .catch(function (error) {
         console.log(error);
@@ -37,7 +36,6 @@ class App extends React.Component {
     this.socket.on('message', message => {
       message.time = utils.convertToLocaleTime(message.time);
       this.setState({ messages: [...this.state.messages, message] }) ;//listener for new messages
-      utils.scrollToBottom('.chat');
       if (this.notification) {
         this.notification.close();
       }
@@ -57,7 +55,11 @@ class App extends React.Component {
       let last = value.length - 1;
       this.socket.emit('message', value[last]);
       value[last].time = utils.convertToLocaleTime(value[last].time);
-      utils.scrollToBottom('.chat');
+      this.setState({ [state]:  value });
+      setTimeout(function(){
+        utils.scrollToBottom('.chat');
+      }, 1);
+      return;
     } else if( state === 'name') {
       let typing = utils.findAndRemove(this.state.typing,this.state.name);
       this.typingFormatted(typing);
@@ -70,6 +72,9 @@ class App extends React.Component {
     this.setState({ [state]:  value });
   }
 
+  componentDidUpdate(){
+    utils.scrollToBottom('.chat');
+  }
 
   typingFormatted(value){
     let typing = value;
@@ -110,7 +115,7 @@ class App extends React.Component {
         <h4>Name set as: <b>{this.state.name}</b></h4>
         <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
         <div className='button-container'>
-          <button onClick={this.handleClick}className='invis-button'><Glyphicon glyph="volume-up" /></button>
+          <button onClick={this.handleClick} className='invis-button'><Glyphicon glyph="volume-up" /></button>
         </div>
         <Well className='chat'>
           <li ref={(element) => { this.welcomeNote = element;}} className='no-bullets'>Welcome {this.state.name}!</li>
