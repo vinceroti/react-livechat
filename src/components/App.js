@@ -40,7 +40,7 @@ class App extends React.Component {
         this.notification.close();
       }
 
-      if (window.focus()){
+      if (document.visibilityState === 'hidden'){
         this.notification = utils.spawnNotification(`${message.name} writes:`,message.body, window.location.href);
         if (this.audio === true) {
           new Audio('../../aim.mp3').play();
