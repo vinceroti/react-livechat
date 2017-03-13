@@ -41,7 +41,7 @@ class App extends React.Component {
       }
 
       if (document.visibilityState === 'hidden'){
-        this.notification = utils.spawnNotification(`${message.name} writes:`,message.body, window.location.href);
+        this.notification = utils.spawnNotification(`${message.name} writes:`,message.body);
       }
 
       if (this.audio === true) {
