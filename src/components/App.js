@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import io from 'socket.io-client';
-import { Glyphicon, FormControl, Well } from 'react-bootstrap';
+import { Glyphicon, FormControl, Well, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import es6Promise from 'es6-promise';
 import axios from 'axios';
 import NameForm from './NameForm';
@@ -14,8 +14,7 @@ class App extends React.Component {
     es6Promise.polyfill();
     super(props);
     const name = localStorage.getItem('name');
-    this.state = { name: name ? name : 'User', messages: [], typing: [], typingFormatted: '' };
-    this.audio = true;
+    this.state = { audio: true, name: name ? name : 'User', messages: [], typing: [], typingFormatted: '' };
     this.changeParentState = this.changeParentState.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -44,7 +43,7 @@ class App extends React.Component {
         this.notification = utils.spawnNotification(`${message.name} writes:`,message.body);
       }
 
-      if (this.audio === true) {
+      if (this.state.audio === true) {
         new Audio('../../aim.mp3').play();
       }
     });
@@ -98,10 +97,10 @@ class App extends React.Component {
       let className = e.target.className.split(' ');
       if (className[1] === 'glyphicon-volume-up') {
         e.target.className = 'glyphicon glyphicon-volume-off';
-        this.audio = false;
+        this.state.audio = false;
       } else {
         e.target.className = 'glyphicon glyphicon-volume-up';
-        this.audio = true;
+        this.state.audio = true;
       }
     }
   }
@@ -110,15 +109,21 @@ class App extends React.Component {
     const messages = this.state.messages.map((message, index) => {
       return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
     });
+
+    const tooltip = (
+      <Tooltip id="tooltip"><strong>Enable/Disable</strong> chat noise.</Tooltip>
+    );
     return (
       <main>
         <h1><b>Simple Chat</b></h1>
         <h4>Name set as: <b>{this.state.name}</b></h4>
         <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
         <div ref='button' className='button-container'>
-          <button onClick={this.handleClick} className='invis-button'>
-            <Glyphicon glyph="volume-up" />
-          </button>
+          <OverlayTrigger placement="top" overlay={tooltip}>
+            <button onClick={this.handleClick} className='invis-button'>
+              <Glyphicon glyph="volume-up" />
+            </button>
+          </OverlayTrigger>
         </div>
         <Well ref='chat' className='chat'>
           <li className='no-bullets'>Welcome {this.state.name}!</li>
