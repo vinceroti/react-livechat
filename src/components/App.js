@@ -39,7 +39,8 @@ class App extends React.Component {
       if (this.notification) {
         this.notification.close();
       }
-      this.notification = utils.spawnNotification(`${message.name} writes:`,message.body, this.audio);
+
+      this.notification = utils.spawnNotification(`${message.name} writes:`,message.body, window.location.href);
       if (this.audio === true) {
         new Audio('../../aim.mp3').play();
       }
