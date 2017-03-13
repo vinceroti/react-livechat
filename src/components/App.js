@@ -73,7 +73,7 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps,prevState){
     if (prevState.messages.length < this.state.messages.length) {
-      utils.scrollToBottom('.chat');
+      utils.scrollToBottom(ReactDOM.findDOMNode(this.refs.chat));
     }
   }
 
@@ -115,11 +115,13 @@ class App extends React.Component {
         <h1><b>Simple Chat</b></h1>
         <h4>Name set as: <b>{this.state.name}</b></h4>
         <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
-        <div className='button-container'>
-          <button onClick={this.handleClick} className='invis-button'><Glyphicon glyph="volume-up" /></button>
+        <div ref='button' className='button-container'>
+          <button onClick={this.handleClick} className='invis-button'>
+            <Glyphicon glyph="volume-up" />
+          </button>
         </div>
-        <Well className='chat'>
-          <li ref={(element) => { this.welcomeNote = element;}} className='no-bullets'>Welcome {this.state.name}!</li>
+        <Well ref='chat' className='chat'>
+          <li className='no-bullets'>Welcome {this.state.name}!</li>
           {messages}
         </Well>
         {this.state.typingFormatted}

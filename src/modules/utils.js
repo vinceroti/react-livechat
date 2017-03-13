@@ -30,8 +30,7 @@ function spawnNotification(title,body,url) {
   return notification;
 }
 
-function scrollToBottom(query) {
-  let elm = document.querySelector(query);
+function scrollToBottom(elm) {
   let height = elm.scrollHeight;
   elm.scrollTop = height;
 }
