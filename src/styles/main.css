@@ -35,6 +35,8 @@ main {
 }
 
 .invis-button{
+  padding-right: 0px;
+  height: 33px;
   outline: none;
   background: none;
   border: none;
