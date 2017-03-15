@@ -115,7 +115,7 @@ class App extends React.Component {
     );
 
     const tooltipVideo = (
-      <Tooltip id="Tooltip">Join Video Call.</Tooltip>
+      <Tooltip id="Tooltip">Join Video Call. (Work in progress)</Tooltip>
     );
     return (
       <main>
