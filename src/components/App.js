@@ -16,7 +16,7 @@ class App extends React.Component {
     const name = localStorage.getItem('name');
     this.state = { tooltip: 'Disable', audio: true, name: name ? name : 'User', messages: [], typing: [], typingFormatted: '' };
     this.changeParentState = this.changeParentState.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.handleAudioClick = this.handleAudioClick.bind(this);
   }
 
   componentDidMount() {
@@ -92,7 +92,7 @@ class App extends React.Component {
     this.setState({typingFormatted: `${nameString} is typing...`});
   }
 
-  handleClick(e) {
+  handleAudioClick(e) {
     if (e.target.children.length === 0) {
       let className = e.target.className.split(' ');
       if (className[1] === 'glyphicon-volume-up') {
@@ -110,18 +110,29 @@ class App extends React.Component {
       return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
     });
 
-    const tooltip = (
-      <Tooltip id="tooltip"><strong>{this.state.tooltip}</strong> chat noise.</Tooltip>
+    const tooltipAudio = (
+      <Tooltip id="Tooltip"><strong>{this.state.tooltip}</strong> chat noise.</Tooltip>
+    );
+
+    const tooltipVideo = (
+      <Tooltip id="Tooltip">Join Video Call.</Tooltip>
     );
     return (
       <main>
         <h1><b>Simple Chat</b></h1>
         <h4>Name set as: <b>{this.state.name}</b></h4>
         <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
-        <div ref='button' className='button-container'>
-          <OverlayTrigger placement="right" overlay={tooltip}>
-            <button onClick={this.handleClick} className='invis-button'>
+        <div className='button-container'>
+          <OverlayTrigger placement="top" overlay={tooltipAudio}>
+            <button onClick={this.handleAudioClick} className='invis-button'>
               <Glyphicon glyph="volume-up" />
+            </button>
+          </OverlayTrigger>
+        </div>
+        <div className='button-container'>
+          <OverlayTrigger placement="top" overlay={tooltipVideo}>
+            <button onClick={this.handleVideoClick} className='invis-button'>
+              <Glyphicon glyph="facetime-video" />
             </button>
           </OverlayTrigger>
         </div>

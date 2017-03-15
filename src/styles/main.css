@@ -28,7 +28,7 @@ main {
 }
 
 .button-container {
-  position: absolute;
+  position: relative;
   display: inline-block;
   vertical-align: bottom;
   font-size: 30px;
@@ -61,6 +61,7 @@ text-align: center;
   display: inline-block;
   position: relative;
   width: 200px;
+  margin-left: 77px;
   margin-bottom: 5px;
 }
 
@@ -78,7 +79,9 @@ text-align: center;
   }
 
   .name-input {
+    display: block;
     width: 200px;
+    margin-left: 0px;
+    margin: auto;
   }
-
 }
