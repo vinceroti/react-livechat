@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
   entry: __dirname + '/src',
   output: {
@@ -42,5 +44,11 @@ module.exports = {
         loader: 'url?limit=10000&mimetype=image/svg+xml'
       }
     ]
-  }
+  },
+
+  plugins: process.env.NODE_ENV === 'production' ? [
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin()
+  ] : [],
 };
