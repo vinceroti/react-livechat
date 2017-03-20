@@ -6,6 +6,7 @@ import es6Promise from 'es6-promise';
 import axios from 'axios';
 import NameForm from './NameForm';
 import MessageForm from './MessageForm';
+// import Video from './Video';
 import utils from '../modules/utils';
 
 
@@ -143,6 +144,7 @@ class App extends React.Component {
         {this.state.typingFormatted}
         <MessageForm findAndRemove={utils.findAndRemove} changeParentState={this.changeParentState}
         typing={this.state.typing} name={this.state.name} messages={this.state.messages}/>
+        {/*<Video/>*/}
       </main>
     );
   }
