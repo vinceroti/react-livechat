@@ -80,9 +80,14 @@ var DropdownMenu = function (_React$Component) {
 
     var _this = (0, _possibleConstructorReturn3['default'])(this, _React$Component.call(this, props));
 
+    _this.handleRootClose = _this.handleRootClose.bind(_this);
     _this.handleKeyDown = _this.handleKeyDown.bind(_this);
     return _this;
   }
+
+  DropdownMenu.prototype.handleRootClose = function handleRootClose(event) {
+    this.props.onClose(event, { source: 'rootClose' });
+  };
 
   DropdownMenu.prototype.handleKeyDown = function handleKeyDown(event) {
     switch (event.keyCode) {
@@ -96,7 +101,7 @@ var DropdownMenu = function (_React$Component) {
         break;
       case _keycode2['default'].codes.esc:
       case _keycode2['default'].codes.tab:
-        this.props.onClose(event);
+        this.props.onClose(event, { source: 'keydown' });
         break;
       default:
     }
@@ -151,17 +156,16 @@ var DropdownMenu = function (_React$Component) {
     var _props = this.props,
         open = _props.open,
         pullRight = _props.pullRight,
-        onClose = _props.onClose,
         labelledBy = _props.labelledBy,
         onSelect = _props.onSelect,
         className = _props.className,
         rootCloseEvent = _props.rootCloseEvent,
         children = _props.children,
-        props = (0, _objectWithoutProperties3['default'])(_props, ['open', 'pullRight', 'onClose', 'labelledBy', 'onSelect', 'className', 'rootCloseEvent', 'children']);
+        props = (0, _objectWithoutProperties3['default'])(_props, ['open', 'pullRight', 'labelledBy', 'onSelect', 'className', 'rootCloseEvent', 'children']);
 
-    var _splitBsProps = (0, _bootstrapUtils.splitBsProps)(props),
-        bsProps = _splitBsProps[0],
-        elementProps = _splitBsProps[1];
+    var _splitBsPropsAndOmit = (0, _bootstrapUtils.splitBsPropsAndOmit)(props, ['onClose']),
+        bsProps = _splitBsPropsAndOmit[0],
+        elementProps = _splitBsPropsAndOmit[1];
 
     var classes = (0, _extends4['default'])({}, (0, _bootstrapUtils.getClassSet)(bsProps), (_extends2 = {}, _extends2[(0, _bootstrapUtils.prefix)(bsProps, 'right')] = pullRight, _extends2));
 
@@ -169,7 +173,7 @@ var DropdownMenu = function (_React$Component) {
       _RootCloseWrapper2['default'],
       {
         disabled: !open,
-        onRootClose: onClose,
+        onRootClose: this.handleRootClose,
         event: rootCloseEvent
       },
       _react2['default'].createElement(

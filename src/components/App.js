@@ -144,7 +144,6 @@ class App extends React.Component {
         {this.state.typingFormatted}
         <MessageForm findAndRemove={utils.findAndRemove} changeParentState={this.changeParentState}
         typing={this.state.typing} name={this.state.name} messages={this.state.messages}/>
-        <Video/>
       </main>
     );
   }

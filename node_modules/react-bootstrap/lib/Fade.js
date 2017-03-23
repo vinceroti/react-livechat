@@ -39,6 +39,11 @@ var propTypes = {
   'in': _react2['default'].PropTypes.bool,
 
   /**
+   * Wait until the first "enter" transition to mount the component (add it to the DOM)
+   */
+  mountOnEnter: _react2['default'].PropTypes.bool,
+
+  /**
    * Unmount the component (remove it from the DOM) when it is faded out
    */
   unmountOnExit: _react2['default'].PropTypes.bool,
@@ -85,6 +90,7 @@ var propTypes = {
 var defaultProps = {
   'in': false,
   timeout: 300,
+  mountOnEnter: false,
   unmountOnExit: false,
   transitionAppear: false
 };

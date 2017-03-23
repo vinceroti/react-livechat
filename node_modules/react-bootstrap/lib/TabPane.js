@@ -107,6 +107,11 @@ var propTypes = {
   onExited: _react.PropTypes.func,
 
   /**
+   * Wait until the first "enter" transition to mount the tab (add it to the DOM)
+   */
+  mountOnEnter: _react2['default'].PropTypes.bool,
+
+  /**
    * Unmount the tab (remove it from the DOM) when it is no longer visible
    */
   unmountOnExit: _react.PropTypes.bool
@@ -114,13 +119,14 @@ var propTypes = {
 
 var contextTypes = {
   $bs_tabContainer: _react.PropTypes.shape({
-    getId: _react.PropTypes.func,
-    unmountOnExit: _react.PropTypes.bool
+    getTabId: _react.PropTypes.func,
+    getPaneId: _react.PropTypes.func
   }),
   $bs_tabContent: _react.PropTypes.shape({
     bsClass: _react.PropTypes.string,
     animation: _react.PropTypes.oneOfType([_react.PropTypes.bool, _elementType2['default']]),
     activeKey: _react.PropTypes.any,
+    mountOnEnter: _react.PropTypes.bool,
     unmountOnExit: _react.PropTypes.bool,
     onPaneEnter: _react.PropTypes.func.isRequired,
     onPaneExited: _react.PropTypes.func.isRequired,
@@ -232,8 +238,9 @@ var TabPane = function (_React$Component) {
         onExit = _props.onExit,
         onExiting = _props.onExiting,
         onExited = _props.onExited,
+        propsMountOnEnter = _props.mountOnEnter,
         propsUnmountOnExit = _props.unmountOnExit,
-        props = (0, _objectWithoutProperties3['default'])(_props, ['eventKey', 'className', 'onEnter', 'onEntering', 'onEntered', 'onExit', 'onExiting', 'onExited', 'unmountOnExit']);
+        props = (0, _objectWithoutProperties3['default'])(_props, ['eventKey', 'className', 'onEnter', 'onEntering', 'onEntered', 'onExit', 'onExiting', 'onExited', 'mountOnEnter', 'unmountOnExit']);
     var _context = this.context,
         tabContent = _context.$bs_tabContent,
         tabContainer = _context.$bs_tabContainer;
@@ -245,6 +252,7 @@ var TabPane = function (_React$Component) {
     var active = this.isActive();
     var animation = this.getAnimation();
 
+    var mountOnEnter = propsMountOnEnter != null ? propsMountOnEnter : tabContent && tabContent.mountOnEnter;
     var unmountOnExit = propsUnmountOnExit != null ? propsUnmountOnExit : tabContent && tabContent.unmountOnExit;
 
     if (!active && !animation && unmountOnExit) {
@@ -287,6 +295,7 @@ var TabPane = function (_React$Component) {
           onExit: onExit,
           onExiting: onExiting,
           onExited: (0, _createChainedFunction2['default'])(this.handleExited, onExited),
+          mountOnEnter: mountOnEnter,
           unmountOnExit: unmountOnExit
         },
         pane

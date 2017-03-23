@@ -92,6 +92,11 @@ var propTypes = {
   onSelect: _react2['default'].PropTypes.func,
 
   /**
+   * Wait until the first "enter" transition to mount tabs (add them to the DOM)
+   */
+  mountOnEnter: _react2['default'].PropTypes.bool,
+
+  /**
    * Unmount tabs (remove it from the DOM) when it is no longer visible
    */
   unmountOnExit: _react2['default'].PropTypes.bool
@@ -100,6 +105,7 @@ var propTypes = {
 var defaultProps = {
   bsStyle: 'tabs',
   animation: true,
+  mountOnEnter: false,
   unmountOnExit: false
 };
 
@@ -149,6 +155,7 @@ var Tabs = function (_React$Component) {
         id = _props.id,
         onSelect = _props.onSelect,
         animation = _props.animation,
+        mountOnEnter = _props.mountOnEnter,
         unmountOnExit = _props.unmountOnExit,
         bsClass = _props.bsClass,
         className = _props.className,
@@ -156,7 +163,7 @@ var Tabs = function (_React$Component) {
         children = _props.children,
         _props$activeKey = _props.activeKey,
         activeKey = _props$activeKey === undefined ? getDefaultActiveKey(children) : _props$activeKey,
-        props = (0, _objectWithoutProperties3['default'])(_props, ['id', 'onSelect', 'animation', 'unmountOnExit', 'bsClass', 'className', 'style', 'children', 'activeKey']);
+        props = (0, _objectWithoutProperties3['default'])(_props, ['id', 'onSelect', 'animation', 'mountOnEnter', 'unmountOnExit', 'bsClass', 'className', 'style', 'children', 'activeKey']);
 
 
     return _react2['default'].createElement(
@@ -183,6 +190,7 @@ var Tabs = function (_React$Component) {
           {
             bsClass: bsClass,
             animation: animation,
+            mountOnEnter: mountOnEnter,
             unmountOnExit: unmountOnExit
           },
           children

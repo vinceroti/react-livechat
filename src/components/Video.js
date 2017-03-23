@@ -30,7 +30,8 @@ class MessageForm extends React.Component {
 
     return (
       <div>
-        <video ref='video'></video>
+        <h1>test</h1>
+        {/*<video ref='video'></video>*/}
       </div>
     );
   }

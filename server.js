@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const http = require('http');
 const bodyParser = require('body-parser');
 const socketIo = require('socket.io');
@@ -7,6 +8,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackConfig = require('./webpack.config.js');
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config();
+
 
 // to learn more about express, https://zellwk.com/blog/crud-express-mongodb/
 
@@ -45,6 +47,8 @@ MongoClient.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds1
   server.listen(process.env.PORT || 3000);
 });
 
+// handle every other route with index.html, which will contain
+// a script tag to your application's JavaScript file(s).
 
 
 app.get('/index', (req, res) => {
@@ -59,3 +63,6 @@ app.delete('/', (req, res) => {
   });
 });
 
+app.get('*', function (request, response){
+  response.sendFile(path.resolve(__dirname, 'public', 'index.html'));
+});

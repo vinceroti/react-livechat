@@ -141,6 +141,12 @@ var propTypes = (0, _extends3['default'])({}, _Modal2['default'].propTypes, _Mod
   enforceFocus: _react2['default'].PropTypes.bool,
 
   /**
+   * When `true` The modal will restore focus to previously focused element once
+   * modal is hidden
+   */
+  restoreFocus: _react2['default'].PropTypes.bool,
+
+  /**
    * When `true` The modal will show itself.
    */
   show: _react2['default'].PropTypes.bool,

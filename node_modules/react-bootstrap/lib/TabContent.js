@@ -49,6 +49,11 @@ var propTypes = {
   animation: _react.PropTypes.oneOfType([_react.PropTypes.bool, _elementType2['default']]),
 
   /**
+   * Wait until the first "enter" transition to mount tabs (add them to the DOM)
+   */
+  mountOnEnter: _react2['default'].PropTypes.bool,
+
+  /**
    * Unmount tabs (remove it from the DOM) when they are no longer visible
    */
   unmountOnExit: _react.PropTypes.bool
@@ -57,6 +62,7 @@ var propTypes = {
 var defaultProps = {
   componentClass: 'div',
   animation: true,
+  mountOnEnter: false,
   unmountOnExit: false
 };
 
@@ -71,6 +77,7 @@ var childContextTypes = {
     bsClass: _react.PropTypes.string,
     animation: _react.PropTypes.oneOfType([_react.PropTypes.bool, _elementType2['default']]),
     activeKey: _react.PropTypes.any,
+    mountOnEnter: _react.PropTypes.bool,
     unmountOnExit: _react.PropTypes.bool,
     onPaneEnter: _react.PropTypes.func.isRequired,
     onPaneExited: _react.PropTypes.func.isRequired,
@@ -103,6 +110,7 @@ var TabContent = function (_React$Component) {
     var _props = this.props,
         bsClass = _props.bsClass,
         animation = _props.animation,
+        mountOnEnter = _props.mountOnEnter,
         unmountOnExit = _props.unmountOnExit;
 
 
@@ -117,6 +125,7 @@ var TabContent = function (_React$Component) {
         bsClass: bsClass,
         animation: animation,
         activeKey: activeKey,
+        mountOnEnter: mountOnEnter,
         unmountOnExit: unmountOnExit,
         onPaneEnter: this.handlePaneEnter,
         onPaneExited: this.handlePaneExited,
@@ -184,7 +193,7 @@ var TabContent = function (_React$Component) {
         className = _props2.className,
         props = (0, _objectWithoutProperties3['default'])(_props2, ['componentClass', 'className']);
 
-    var _splitBsPropsAndOmit = (0, _bootstrapUtils.splitBsPropsAndOmit)(props, ['animation', 'unmountOnExit']),
+    var _splitBsPropsAndOmit = (0, _bootstrapUtils.splitBsPropsAndOmit)(props, ['animation', 'mountOnEnter', 'unmountOnExit']),
         bsProps = _splitBsPropsAndOmit[0],
         elementProps = _splitBsPropsAndOmit[1];
 
