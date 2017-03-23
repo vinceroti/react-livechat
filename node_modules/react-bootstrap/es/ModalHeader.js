@@ -80,7 +80,7 @@ var ModalHeader = function (_React$Component) {
           type: 'button',
           className: 'close',
           'aria-label': label,
-          onClick: createChainedFunction(modal.onHide, onHide)
+          onClick: createChainedFunction(modal && modal.onHide, onHide)
         },
         React.createElement(
           'span',

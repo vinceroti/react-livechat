@@ -10,7 +10,9 @@ import warning from 'warning';
 
 import FormControlFeedback from './FormControlFeedback';
 import FormControlStatic from './FormControlStatic';
-import { bsClass, getClassSet, splitBsProps } from './utils/bootstrapUtils';
+import { bsClass, getClassSet, splitBsProps, bsSizes } from './utils/bootstrapUtils';
+import { SIZE_MAP, Size } from './utils/StyleConfig';
+import { prefix } from './utils/bootstrapUtils';
 
 var propTypes = {
   componentClass: elementType,
@@ -60,7 +62,8 @@ var FormControl = function (_React$Component) {
         id = _props$id === undefined ? controlId : _props$id,
         inputRef = _props.inputRef,
         className = _props.className,
-        props = _objectWithoutProperties(_props, ['componentClass', 'type', 'id', 'inputRef', 'className']);
+        bsSize = _props.bsSize,
+        props = _objectWithoutProperties(_props, ['componentClass', 'type', 'id', 'inputRef', 'className', 'bsSize']);
 
     var _splitBsProps = splitBsProps(props),
         bsProps = _splitBsProps[0],
@@ -72,6 +75,13 @@ var FormControl = function (_React$Component) {
     var classes = void 0;
     if (type !== 'file') {
       classes = getClassSet(bsProps);
+    }
+
+    // If user provides a size, make sure to append it to classes as input-
+    // e.g. if bsSize is small, it will append input-sm
+    if (bsSize) {
+      var size = SIZE_MAP[bsSize] || bsSize;
+      classes[prefix({ bsClass: 'input' }, size)] = true;
     }
 
     return React.createElement(Component, _extends({}, elementProps, {
@@ -92,4 +102,4 @@ FormControl.contextTypes = contextTypes;
 FormControl.Feedback = FormControlFeedback;
 FormControl.Static = FormControlStatic;
 
-export default bsClass('form-control', FormControl);
+export default bsClass('form-control', bsSizes([Size.SMALL, Size.LARGE], FormControl));
