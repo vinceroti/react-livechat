@@ -7,6 +7,7 @@ const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackConfig = require('./webpack.config.js');
 const MongoClient = require('mongodb').MongoClient;
+const compression = require('compression');
 require('dotenv').config();
 
 
@@ -15,7 +16,6 @@ require('dotenv').config();
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
-
 
 app.use(compression());
 app.use(express.static(__dirname + '/public'));
