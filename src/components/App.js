@@ -6,7 +6,7 @@ import es6Promise from 'es6-promise';
 import axios from 'axios';
 import NameForm from './NameForm';
 import MessageForm from './MessageForm';
-import Video from './Video';
+// import Video from './Video';
 import utils from '../modules/utils';
 
 
