@@ -9,7 +9,7 @@ import MessageForm from './MessageForm';
 import utils from '../modules/utils';
 
 
-class App extends React.Component {
+class Chat extends React.Component {
   constructor(props) {
     es6Promise.polyfill();
     super(props);
@@ -119,7 +119,6 @@ class App extends React.Component {
     );
     return (
       <main>
-        <h1><b>Simple Chat</b></h1>
         <h4>Name set as: <b>{this.state.name}</b></h4>
         <NameForm name={this.state.name} changeParentState={this.changeParentState}/>
         <div className='button-container'>
@@ -148,4 +147,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Chat;
