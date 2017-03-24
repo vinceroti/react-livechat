@@ -1,11 +1,11 @@
 body {
+  text-align: center;
   margin: 0px auto;
   background-image: url("./bg.png");
 }
 
 main {
-  text-align: center;
-  margin: auto;
+  margin: 0px auto;
 }
 
 .chat {
@@ -19,6 +19,15 @@ main {
 
 .no-bullets {
   list-style: none;
+}
+
+.title {
+  font-weight: bold;
+  margin: 5px 10px 5px 10px;
+}
+
+.nav-button {
+  margin: 5px;
 }
 
 .input {
@@ -43,25 +52,25 @@ main {
 }
 
 .name-input, .input::-webkit-input-placeholder {
-text-align: center;
+  text-align: center;
 }
 .name-input, .input:-moz-placeholder { /* Firefox 18- */
- text-align: center;
+  text-align: center;
 }
 
 .name-input, .input::-moz-placeholder {  /* Firefox 19+ */
- text-align: center;
+  text-align: center;
 }
 
 .name-input, .input:-ms-input-placeholder {
- text-align: center;
+  text-align: center;
 }
 
 .name-input {
   display: inline-block;
   position: relative;
   width: 200px;
-  margin-left: 77px;
+  margin-left: 30px;
   margin-bottom: 5px;
 }
 
@@ -79,9 +88,6 @@ text-align: center;
   }
 
   .name-input {
-    display: block;
     width: 200px;
-    margin-left: 0px;
-    margin: auto;
   }
 }
