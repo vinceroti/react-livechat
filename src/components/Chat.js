@@ -114,9 +114,9 @@ class Chat extends React.Component {
       <Tooltip id="Tooltip"><strong>{this.state.tooltip}</strong> chat noise.</Tooltip>
     );
 
-    const tooltipVideo = (
-      <Tooltip id="Tooltip">Join Video Call. (Work in progress)</Tooltip>
-    );
+    // const tooltipVideo = (
+    //   <Tooltip id="Tooltip">Join Video Call. (Work in progress)</Tooltip>
+    // );
     return (
       <main>
         <h4>Name set as: <b>{this.state.name}</b></h4>
@@ -128,13 +128,13 @@ class Chat extends React.Component {
             </button>
           </OverlayTrigger>
         </div>
-        <div className='button-container'>
+{/*        <div className='button-container'>
           <OverlayTrigger placement="top" overlay={tooltipVideo}>
             <button onClick={this.handleVideoClick} className='invis-button'>
               <Glyphicon glyph="facetime-video" />
             </button>
           </OverlayTrigger>
-        </div>
+        </div>*/}
         <Well ref='chat' className='chat'>
           <li className='no-bullets'>Welcome {this.state.name}!</li>
           {messages}

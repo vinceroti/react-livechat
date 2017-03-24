@@ -11,7 +11,7 @@ class MessageForm extends React.Component {
     navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-    var constraints = { video: true};
+    var constraints = { video: true };
     function successCallback(localMediaStream) {
       window.stream = localMediaStream; // stream available to console
       let video = that.refs.video;
