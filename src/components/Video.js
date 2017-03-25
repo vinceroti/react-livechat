@@ -26,13 +26,14 @@ class MessageForm extends React.Component {
     navigator.getUserMedia(constraints, successCallback, errorCallback);
   }
 
+  componentWillUnmount() {
+    window.stream.getTracks().forEach(track => track.stop());
+  }
+
   render() {
 
     return (
-      <div>
-        <h1>test</h1>
-        <video ref='video'></video>
-      </div>
+      <video ref='video'></video>
     );
   }
 }

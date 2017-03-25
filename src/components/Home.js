@@ -7,16 +7,18 @@ class Home extends React.Component {
 
   render() {
     return(
-      <nav>
-      <h1 className='title'> Simple Chat </h1>
-        <Link to="/chat">
-          <Button className='nav-button' bsStyle='primary' bsSize='sm'>Chat
-          </Button>
-        </Link>
-        <Link to="/video">
-          <Button bsStyle='primary' className='nav-button' bsSize='sm'>Video</Button>
-        </Link>
-      </nav>
+      <div>
+        <h1 className='title'> Simple Chat </h1>
+        <nav>
+          <Link to="/chat">
+            <Button className='nav-button' bsStyle='primary' bsSize='sm'>Chat
+            </Button>
+          </Link>
+          <Link to="/video">
+            <Button bsStyle='primary' className='nav-button' bsSize='sm'>Video</Button>
+          </Link>
+        </nav>
+      </div>
     );
   }
 }
