@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Button } from 'react-bootstrap';
 
 class MessageForm extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { id: 'defaultLocal', remote: 'defaultRemote'  };
   }
 
   // peerjs() {
@@ -65,6 +67,7 @@ class MessageForm extends React.Component {
       <div>
         <input className="video-input" placeholder="Your ID"ref='localId'/>
         <input className="video-input" placeholder="Connection ID" ref='remoteId'/>
+        <Button className="video-button" bsSize='sm'>Connect</Button>
         <video ref="localVideo" autoPlay></video>
         <h2>Currently only displays local cam feedback</h2>
       </div>

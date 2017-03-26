@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom'
-import { ButtonToolbar, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Button } from 'react-bootstrap';
 
 class Home extends React.Component {
 

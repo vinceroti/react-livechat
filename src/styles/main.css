@@ -59,6 +59,10 @@ main {
   margin-top: 2px;
 }
 
+.video-button {
+  display: block;
+  margin: auto;
+}
 video {
   margin-top: 10px;
   max-width: 100%;
