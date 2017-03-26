@@ -1,0 +1,12 @@
+exports[`RemoteVideo renders correctly 1`] = `
+<div>
+  <video
+    autoPlay="1"
+    id="vidoejvbf3"
+    src="https://xrtc.iris.me/video0" />
+  <audio
+    autoPlay="1"
+    id="audiojvbf3"
+    src="https://xrtc.iris.me/audio1" />
+</div>
+`;

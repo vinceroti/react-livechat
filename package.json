@@ -22,6 +22,7 @@
     "dotenv": "^4.0.0",
     "express": "^4.13.4",
     "history": "^4.6.1",
+    "iris-react-webrtc": "^1.0.13",
     "mongodb": "^2.2.24",
     "react": "^15.0.1",
     "react-bootstrap": "^0.30.7",

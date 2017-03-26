@@ -23,7 +23,8 @@ main {
 
 .title {
   font-weight: bold;
-  margin: 5px 10px 5px 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .nav-button {
@@ -50,6 +51,11 @@ main {
   outline: none;
   background: none;
   border: none;
+}
+
+video {
+  margin-top: 20px;
+  max-width: 100%;
 }
 
 .name-input, .input::-webkit-input-placeholder {

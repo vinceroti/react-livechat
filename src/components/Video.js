@@ -14,7 +14,7 @@ class MessageForm extends React.Component {
     var constraints = { video: true };
     function successCallback(localMediaStream) {
       window.stream = localMediaStream; // stream available to console
-      let video = that.refs.video;
+      let video = that.refs.localVideo;
       video.src = window.URL.createObjectURL(localMediaStream);
       video.play();
     }
@@ -33,7 +33,10 @@ class MessageForm extends React.Component {
   render() {
 
     return (
-      <video ref='video'></video>
+      <div>
+        <video ref="localVideo" autoPlay></video>
+        <h2>Currently only displays local cam feedback</h2>
+      </div>
     );
   }
 }
