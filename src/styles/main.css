@@ -23,11 +23,13 @@ main {
 
 .title {
   font-weight: bold;
-  margin: 5px 10px 5px 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .nav-button {
   margin: 5px;
+  margin-bottom: 0px;
 }
 
 .input {
@@ -51,18 +53,33 @@ main {
   border: none;
 }
 
-.name-input, .input::-webkit-input-placeholder {
+.video-input {
+  display: block;
+  margin: 0px auto;
+  margin-top: 2px;
+}
+
+.video-button {
+  display: block;
+  margin: auto;
+}
+video {
+  margin-top: 10px;
+  max-width: 100%;
+}
+
+.video-input, .name-input, .input::-webkit-input-placeholder {
   text-align: center;
 }
-.name-input, .input:-moz-placeholder { /* Firefox 18- */
+.video-input, .name-input, .input:-moz-placeholder { /* Firefox 18- */
   text-align: center;
 }
 
-.name-input, .input::-moz-placeholder {  /* Firefox 19+ */
+.video-input, .name-input, .input::-moz-placeholder {  /* Firefox 19+ */
   text-align: center;
 }
 
-.name-input, .input:-ms-input-placeholder {
+.video-input, .name-input, .input:-ms-input-placeholder {
   text-align: center;
 }
 
