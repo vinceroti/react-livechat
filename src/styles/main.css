@@ -53,23 +53,29 @@ main {
   border: none;
 }
 
+.video-input {
+  display: block;
+  margin: 0px auto;
+  margin-top: 2px;
+}
+
 video {
-  margin-top: 20px;
+  margin-top: 10px;
   max-width: 100%;
 }
 
-.name-input, .input::-webkit-input-placeholder {
+.video-input, .name-input, .input::-webkit-input-placeholder {
   text-align: center;
 }
-.name-input, .input:-moz-placeholder { /* Firefox 18- */
-  text-align: center;
-}
-
-.name-input, .input::-moz-placeholder {  /* Firefox 19+ */
+.video-input, .name-input, .input:-moz-placeholder { /* Firefox 18- */
   text-align: center;
 }
 
-.name-input, .input:-ms-input-placeholder {
+.video-input, .name-input, .input::-moz-placeholder {  /* Firefox 19+ */
+  text-align: center;
+}
+
+.video-input, .name-input, .input:-ms-input-placeholder {
   text-align: center;
 }
 
