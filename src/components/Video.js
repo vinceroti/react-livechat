@@ -5,6 +5,7 @@ import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 class MessageForm extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { id: '', h3: 'none', call: 'none' };
     this.handleCallSubmit = this.handleCallSubmit.bind(this);
     this.handleConnectSubmit = this.handleConnectSubmit.bind(this);
   }
@@ -36,26 +37,22 @@ class MessageForm extends React.Component {
     event.preventDefault();
     const target = event.target;
     const id = target.name.value;
+    const that = this;
 
     if (id === '') {
       return alert('Both forms must be filled');
     }
 
-    if (process.env.PORT) {
-      this.peer = new Peer(id, {host: 'react-livechat.herokuapp.com', port: process.env.PORT || 3000, path: '/peerjs'});
-    } else {
-      this.peer = new Peer(id, {host: 'localhost', port: 3000, path: '/peerjs'});
-    }
-
-    // imported in head of HTML, need to refactor for webpack
-
-    this.peer.on('open', function(id) {
-      console.log('My peer ID is: ' + id + ', You are connected!');
-    });
+    this.peer = new Peer(id, {host: '/', port: location.port, path: '/peerjs'}); // imported in head of HTML, need to refactor for webpack
 
     this.peer.on('call', function(call) {
       // Answer the call, providing our mediaStream
       call.answer(window.stream);
+    });
+
+    this.peer.on('open', function(id) {
+      that.setState({ id: id, h3: 'block', call: 'inline-block' });
+      target.name.parentElement.style.display = 'none';
     });
 
   }
@@ -64,7 +61,7 @@ class MessageForm extends React.Component {
     event.preventDefault();
     const target = event.target;
     const remote = target.connectionName.value;
-    let that = this;
+    const that = this;
     if (remote === '') {
       return alert('Both forms must be filled');
     }
@@ -73,8 +70,10 @@ class MessageForm extends React.Component {
       window.stream);
 
     call.on('stream', function(stream) {
+      console.log(stream);
       that.refs.remoteVideo.style.display= 'inline-block';
       that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
+      that.setState({ call: 'none' });
     });
   }
 
@@ -82,18 +81,19 @@ class MessageForm extends React.Component {
 
     return (
       <div>
+        <h3 style={{display: this.state.h3}}> You're connected as {this.state.id}! </h3>
         <Form className="top-margin" onSubmit={this.handleConnectSubmit} inline>
             <FormControl name="name" type="text" placeholder="Your Name" required />
             <Button type="submit">
               Connect
             </Button>
-          </Form>
-          <Form  onSubmit={this.handleCallSubmit}inline>
-            <FormControl  name="connectionName" type="text" placeholder="Connection Name"  required />
-            <Button type="submit">
-              Call
-            </Button>
-          </Form>
+        </Form>
+        <Form style={{display: this.state.call }}onSubmit={this.handleCallSubmit}inline>
+          <FormControl  name="connectionName" type="text" placeholder="Connection Name"  required />
+          <Button type="submit">
+            Call
+          </Button>
+        </Form>
         <video ref="localVideo" autoPlay></video>
         <video style={{display: 'none'}} ref="remoteVideo" autoPlay></video>
       </div>
