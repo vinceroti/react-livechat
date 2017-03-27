@@ -59,7 +59,9 @@ video {
   max-width: 100%;
 }
 
-FormControl
+.top-margin {
+  margin-top: 5px;
+}
 
 .video-input, .name-input, .input::-webkit-input-placeholder {
   text-align: center;

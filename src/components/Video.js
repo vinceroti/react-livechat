@@ -45,10 +45,10 @@ class MessageForm extends React.Component {
 
     return (
       <div>
-        <Form onSubmit={this.handleSubmit}>
+        <Form className="top-margin" onSubmit={this.handleSubmit} inline>
             <FormGroup controlId="connection">
-              <FormControl className="input" name="name" type="text" placeholder="Your Name"required />
-              <FormControl className="input" name="connectionName" type="text" placeholder="Connection Name" required />
+              <FormControl name="name" type="text" placeholder="Your Name"required />
+              <FormControl  name="connectionName" type="text" placeholder="Connection Name" required />
             </FormGroup>
             <Button type="submit">
               Connect
