@@ -41,7 +41,13 @@ class MessageForm extends React.Component {
       return alert('Both forms must be filled');
     }
 
-    this.peer = new Peer(id, {host: 'localhost', port: 3000, path: '/peerjs'}); // imported in head of HTML, need to refactor for webpack
+    if (process.env.PORT) {
+      this.peer = new Peer(id, {host: 'react-livechat.herokuapp.com', port: process.env.PORT || 3000, path: '/peerjs'});
+    } else {
+      this.peer = new Peer(id, {host: 'localhost', port: 3000, path: '/peerjs'});
+    }
+
+    // imported in head of HTML, need to refactor for webpack
 
     this.peer.on('open', function(id) {
       console.log('My peer ID is: ' + id + ', You are connected!');
