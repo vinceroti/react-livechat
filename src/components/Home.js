@@ -8,7 +8,6 @@ class Home extends React.Component {
   render() {
     return(
       <div>
-        <h1 className='title'> Simple Chat </h1>
         <nav>
           <Link to="/chat">
             <Button className='nav-button' bsStyle='primary' bsSize='sm'>Chat
