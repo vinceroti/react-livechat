@@ -53,6 +53,11 @@ main {
   border: none;
 }
 
+.video-input{
+  display: inline-block;
+  margin: 0px auto;
+  width: 200px;
+}
 
 video {
   margin-top: 10px;
