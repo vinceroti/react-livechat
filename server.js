@@ -8,6 +8,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackConfig = require('./webpack.config.js');
 const MongoClient = require('mongodb').MongoClient;
 const compression = require('compression');
+const ExpressPeerServer = require('peer').ExpressPeerServer;
 require('dotenv').config();
 
 
@@ -21,6 +22,10 @@ app.use(compression());
 app.use(express.static(__dirname + '/public'));
 app.use(webpackDevMiddleware(webpack(webpackConfig)));
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/peerjs', ExpressPeerServer(server, {
+  debug: true
+}));
+
 
 io.on('connection', socket => {
   socket.on('message', message => {
