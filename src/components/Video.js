@@ -79,7 +79,7 @@ class MessageForm extends React.Component {
 
     return (
       <div>
-        <h3 style={{display: this.state.h3}}> You're connected as {this.state.id}! </h3>
+        <h3 style={{display: this.state.h3, marginTop: '10px'}}> You're connected as {this.state.id}! </h3>
         <Form className="top-margin" onSubmit={this.handleConnectSubmit} inline>
             <FormControl className="video-input" name="name" type="text" placeholder="Your Name" required />
             <Button type="submit">
