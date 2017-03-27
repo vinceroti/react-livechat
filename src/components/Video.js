@@ -9,11 +9,6 @@ class MessageForm extends React.Component {
   }
 
   componentDidMount() {
-    var peer = new Peer({key: '72su953vnzcqsemi'}); // imported in head of HTML, need to refactor for webpack
-    peer.on('open', function(id) {
-      console.log('My peer ID is: ' + id);
-    });
-
     var that = this;
     navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -40,9 +35,15 @@ class MessageForm extends React.Component {
     event.preventDefault();
     const target = event.target;
 
-    if (target.connectionName.value === '' && target.connection.value === '') {
+    if (target.connectionName.value === '' && target.name.value === '') {
       return alert('Both forms must be filled');
     }
+
+    var peer = new Peer(target.name.value, {key: '72su953vnzcqsemi'}); // imported in head of HTML, need to refactor for webpack
+    peer.on('open', function(id) {
+      console.log('My peer ID is: ' + id);
+    });
+
   }
 
   render() {
