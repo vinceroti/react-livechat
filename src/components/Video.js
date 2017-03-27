@@ -66,11 +66,10 @@ class MessageForm extends React.Component {
       return alert('Both forms must be filled');
     }
 
-    var call = this.peer.call(remote,
+    let call = this.peer.call(remote,
       window.stream);
 
     call.on('stream', function(stream) {
-      console.log(stream);
       that.refs.remoteVideo.style.display= 'inline-block';
       that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
       that.setState({ call: 'none' });
@@ -83,13 +82,13 @@ class MessageForm extends React.Component {
       <div>
         <h3 style={{display: this.state.h3}}> You're connected as {this.state.id}! </h3>
         <Form className="top-margin" onSubmit={this.handleConnectSubmit} inline>
-            <FormControl name="name" type="text" placeholder="Your Name" required />
+            <FormControl className="video-input" name="name" type="text" placeholder="Your Name" required />
             <Button type="submit">
               Connect
             </Button>
         </Form>
         <Form style={{display: this.state.call }}onSubmit={this.handleCallSubmit}inline>
-          <FormControl  name="connectionName" type="text" placeholder="Connection Name"  required />
+          <FormControl className="video-input" name="connectionName" type="text" placeholder="Connection Name"  required />
           <Button type="submit">
             Call
           </Button>
