@@ -51,7 +51,7 @@ class MessageForm extends React.Component {
     });
 
     this.peer.on('open', function(id) {
-      that.setState({ id: id, h3: 'block', call: 'inline-block' });
+      that.setState({ id: id, h3: 'block', call: 'block' });
       target.name.parentElement.style.display = 'none';
     });
 
