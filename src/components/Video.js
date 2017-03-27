@@ -5,7 +5,8 @@ import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 class MessageForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { id: 'defaultLocal', remote: 'defaultRemote'  };
+    this.handleCallSubmit = this.handleCallSubmit.bind(this);
+    this.handleConnectSubmit = this.handleConnectSubmit.bind(this);
   }
 
   componentDidMount() {
@@ -31,36 +32,63 @@ class MessageForm extends React.Component {
     window.stream.getTracks().forEach(track => track.stop());
   }
 
-  handleSubmit(event){
+  handleConnectSubmit(event){
     event.preventDefault();
     const target = event.target;
+    const id = target.name.value;
 
-    if (target.connectionName.value === '' && target.name.value === '') {
+    if (id === '') {
       return alert('Both forms must be filled');
     }
 
-    var peer = new Peer(target.name.value, {key: '72su953vnzcqsemi'}); // imported in head of HTML, need to refactor for webpack
-    peer.on('open', function(id) {
-      console.log('My peer ID is: ' + id);
+    this.peer = new Peer(id, {key: '72su953vnzcqsemi'}); // imported in head of HTML, need to refactor for webpack
+
+    this.peer.on('open', function(id) {
+      console.log('My peer ID is: ' + id + ', You are connected!');
     });
 
+    this.peer.on('call', function(call) {
+      // Answer the call, providing our mediaStream
+      call.answer(window.stream);
+    });
+
+  }
+
+  handleCallSubmit(event){
+    event.preventDefault();
+    const target = event.target;
+    const remote = target.connectionName.value;
+    let that = this;
+    if (remote === '') {
+      return alert('Both forms must be filled');
+    }
+
+    var call = this.peer.call(remote,
+      window.stream);
+
+    call.on('stream', function(stream) {
+      that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
+    });
   }
 
   render() {
 
     return (
       <div>
-        <Form className="top-margin" onSubmit={this.handleSubmit} inline>
-            <FormGroup controlId="connection">
-              <FormControl name="name" type="text" placeholder="Your Name" required />
-              <FormControl  name="connectionName" type="text" placeholder="Connection Name"  required />
-            </FormGroup>
+        <Form className="top-margin" onSubmit={this.handleConnectSubmit} inline>
+            <FormControl name="name" type="text" placeholder="Your Name" required />
             <Button type="submit">
               Connect
             </Button>
           </Form>
+          <Form  onSubmit={this.handleCallSubmit}inline>
+            <FormControl  name="connectionName" type="text" placeholder="Connection Name"  required />
+            <Button type="submit">
+              Call
+            </Button>
+          </Form>
         <video ref="localVideo" autoPlay></video>
-        <h2>Currently only displays local cam feedback</h2>
+        <video ref="remoteVideo" autoPlay></video>
       </div>
     );
   }
