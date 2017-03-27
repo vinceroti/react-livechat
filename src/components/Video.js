@@ -1,37 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 
 class MessageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { id: 'defaultLocal', remote: 'defaultRemote'  };
   }
-
-  // peerjs() {
-  //   var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  //   getUserMedia({video: true, audio: true}, function(stream) {
-  //     var call = peer.call('another-peers-id', stream);
-  //     call.on('stream', function(remoteStream) {
-  //       // Show stream in some video/canvas element.
-  //     });
-  //   }, function(err) {
-  //     console.log('Failed to get local stream' ,err);
-  //   });
-
-
-  //   var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  //   peer.on('call', function(call) {
-  //     getUserMedia({video: true, audio: true}, function(stream) {
-  //       call.answer(stream); // Answer the call with an A/V stream.
-  //       call.on('stream', function(remoteStream) {
-  //         // Show stream in some video/canvas element.
-  //       });
-  //     }, function(err) {
-  //       console.log('Failed to get local stream' ,err);
-  //     });
-  //   });
-  // }
 
   componentDidMount() {
     var peer = new Peer({key: '72su953vnzcqsemi'}); // imported in head of HTML, need to refactor for webpack
@@ -61,13 +36,24 @@ class MessageForm extends React.Component {
     window.stream.getTracks().forEach(track => track.stop());
   }
 
+  handleSubmit(event){
+    event.preventDefault();
+    debugger
+  }
+
   render() {
 
     return (
       <div>
-        <input className="video-input" placeholder="Your ID"ref='localId'/>
-        <input className="video-input" placeholder="Connection ID" ref='remoteId'/>
-        <Button className="video-button" bsSize='sm'>Connect</Button>
+        <Form onSubmit={this.handleSubmit}>
+            <FormGroup controlId="connection">
+              <FormControl className="input" name="name" type="text" placeholder="Your Name"required />
+              <FormControl className="input" name="connectionName" type="text" placeholder="Connection Name" required />
+            </FormGroup>
+            <Button type="submit">
+              Connect
+            </Button>
+          </Form>
         <video ref="localVideo" autoPlay></video>
         <h2>Currently only displays local cam feedback</h2>
       </div>
