@@ -38,7 +38,11 @@ class MessageForm extends React.Component {
 
   handleSubmit(event){
     event.preventDefault();
-    debugger
+    const target = event.target;
+
+    if (target.connectionName.value === '' && target.connection.value === '') {
+      return alert('Both forms must be filled');
+    }
   }
 
   render() {
@@ -47,8 +51,8 @@ class MessageForm extends React.Component {
       <div>
         <Form className="top-margin" onSubmit={this.handleSubmit} inline>
             <FormGroup controlId="connection">
-              <FormControl name="name" type="text" placeholder="Your Name"required />
-              <FormControl  name="connectionName" type="text" placeholder="Connection Name" required />
+              <FormControl name="name" type="text" placeholder="Your Name" required />
+              <FormControl  name="connectionName" type="text" placeholder="Connection Name"  required />
             </FormGroup>
             <Button type="submit">
               Connect
