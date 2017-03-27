@@ -67,6 +67,7 @@ class MessageForm extends React.Component {
       window.stream);
 
     call.on('stream', function(stream) {
+      that.refs.remoteVideo.style.display= 'inline-block';
       that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
     });
   }
@@ -88,7 +89,7 @@ class MessageForm extends React.Component {
             </Button>
           </Form>
         <video ref="localVideo" autoPlay></video>
-        <video ref="remoteVideo" autoPlay></video>
+        <video style={{display: 'none'}} ref="remoteVideo" autoPlay></video>
       </div>
     );
   }
