@@ -53,19 +53,14 @@ main {
   border: none;
 }
 
-.video-input {
-  display: block;
-  margin: 0px auto;
-  margin-top: 2px;
-}
 
-.video-button {
-  display: block;
-  margin: auto;
-}
 video {
   margin-top: 10px;
   max-width: 100%;
+}
+
+.top-margin {
+  margin-top: 5px;
 }
 
 .video-input, .name-input, .input::-webkit-input-placeholder {

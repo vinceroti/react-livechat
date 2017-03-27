@@ -1,44 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button } from 'react-bootstrap';
+import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
 
 class MessageForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { id: 'defaultLocal', remote: 'defaultRemote'  };
+    this.handleCallSubmit = this.handleCallSubmit.bind(this);
+    this.handleConnectSubmit = this.handleConnectSubmit.bind(this);
   }
 
-  // peerjs() {
-  //   var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  //   getUserMedia({video: true, audio: true}, function(stream) {
-  //     var call = peer.call('another-peers-id', stream);
-  //     call.on('stream', function(remoteStream) {
-  //       // Show stream in some video/canvas element.
-  //     });
-  //   }, function(err) {
-  //     console.log('Failed to get local stream' ,err);
-  //   });
-
-
-  //   var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-  //   peer.on('call', function(call) {
-  //     getUserMedia({video: true, audio: true}, function(stream) {
-  //       call.answer(stream); // Answer the call with an A/V stream.
-  //       call.on('stream', function(remoteStream) {
-  //         // Show stream in some video/canvas element.
-  //       });
-  //     }, function(err) {
-  //       console.log('Failed to get local stream' ,err);
-  //     });
-  //   });
-  // }
-
   componentDidMount() {
-    var peer = new Peer({key: '72su953vnzcqsemi'}); // imported in head of HTML, need to refactor for webpack
-    peer.on('open', function(id) {
-      console.log('My peer ID is: ' + id);
-    });
-
     var that = this;
     navigator.getUserMedia = navigator.getUserMedia ||
     navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
@@ -61,15 +32,63 @@ class MessageForm extends React.Component {
     window.stream.getTracks().forEach(track => track.stop());
   }
 
+  handleConnectSubmit(event){
+    event.preventDefault();
+    const target = event.target;
+    const id = target.name.value;
+
+    if (id === '') {
+      return alert('Both forms must be filled');
+    }
+
+    this.peer = new Peer(id, {key: '72su953vnzcqsemi'}); // imported in head of HTML, need to refactor for webpack
+
+    this.peer.on('open', function(id) {
+      console.log('My peer ID is: ' + id + ', You are connected!');
+    });
+
+    this.peer.on('call', function(call) {
+      // Answer the call, providing our mediaStream
+      call.answer(window.stream);
+    });
+
+  }
+
+  handleCallSubmit(event){
+    event.preventDefault();
+    const target = event.target;
+    const remote = target.connectionName.value;
+    let that = this;
+    if (remote === '') {
+      return alert('Both forms must be filled');
+    }
+
+    var call = this.peer.call(remote,
+      window.stream);
+
+    call.on('stream', function(stream) {
+      that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
+    });
+  }
+
   render() {
 
     return (
       <div>
-        <input className="video-input" placeholder="Your ID"ref='localId'/>
-        <input className="video-input" placeholder="Connection ID" ref='remoteId'/>
-        <Button className="video-button" bsSize='sm'>Connect</Button>
+        <Form className="top-margin" onSubmit={this.handleConnectSubmit} inline>
+            <FormControl name="name" type="text" placeholder="Your Name" required />
+            <Button type="submit">
+              Connect
+            </Button>
+          </Form>
+          <Form  onSubmit={this.handleCallSubmit}inline>
+            <FormControl  name="connectionName" type="text" placeholder="Connection Name"  required />
+            <Button type="submit">
+              Call
+            </Button>
+          </Form>
         <video ref="localVideo" autoPlay></video>
-        <h2>Currently only displays local cam feedback</h2>
+        <video ref="remoteVideo" autoPlay></video>
       </div>
     );
   }
