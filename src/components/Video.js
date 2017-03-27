@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Button, Form, FormControl, FormGroup } from 'react-bootstrap';
+import { Button, Form, FormControl } from 'react-bootstrap';
 
 class MessageForm extends React.Component {
   constructor(props) {
@@ -19,14 +19,13 @@ class MessageForm extends React.Component {
       window.stream = localMediaStream; // stream available to console
       let video = that.refs.localVideo;
       video.src = window.URL.createObjectURL(localMediaStream);
-      video.play();
     }
 
     function errorCallback(error){
       console.log('navigator.getUserMedia error: ', error);
     }
 
-    navigator.getUserMedia({ video: true, }, successCallback, errorCallback);
+    navigator.getUserMedia({ video: true, audio: true }, successCallback, errorCallback);
   }
 
   componentWillUnmount() {
@@ -93,7 +92,7 @@ class MessageForm extends React.Component {
             Call
           </Button>
         </Form>
-        <video ref="localVideo" autoPlay></video>
+        <video ref="localVideo" autoPlay muted></video>
         <video style={{display: 'none'}} ref="remoteVideo" autoPlay></video>
       </div>
     );
