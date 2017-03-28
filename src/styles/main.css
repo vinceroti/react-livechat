@@ -60,8 +60,8 @@ main {
 }
 
 video {
-  margin-top: 10px;
-  max-width: 100%;
+  margin-top: 7px;
+  width: 600px;
 }
 
 .top-margin {
@@ -106,5 +106,9 @@ video {
 
   .name-input {
     width: 200px;
+  }
+
+  video {
+    width: 300px;
   }
 }
