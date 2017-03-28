@@ -60,8 +60,9 @@ main {
 }
 
 video {
+  vertical-align: middle;
   margin-top: 7px;
-  width: 600px;
+  width: 400px;
 }
 
 .top-margin {
