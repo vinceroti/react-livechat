@@ -60,7 +60,7 @@ main {
 }
 
 video {
-  vertical-align: middle;
+  vertical-align: top;
   margin-top: 7px;
   width: 400px;
 }
