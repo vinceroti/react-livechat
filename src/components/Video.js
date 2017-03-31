@@ -46,7 +46,20 @@ class MessageForm extends React.Component {
 
     this.peer.on('call', function(call) {
       // Answer the call, providing our mediaStream
+      call.on('stream', function(stream) {
+        that.refs.remoteVideo.style.display= 'inline-block';
+        that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
+        that.setState({ call: 'none' });
+      });
+
       call.answer(window.stream);
+
+      if (that.refs.remoteVideo.src === '') {
+        that.peer.call(call.peer,
+          window.stream);
+      } else {
+        return;
+      }
     });
 
     this.peer.on('open', function(id) {
@@ -55,6 +68,7 @@ class MessageForm extends React.Component {
     });
 
   }
+
 
   handleCallSubmit(event){
     event.preventDefault();
@@ -65,14 +79,8 @@ class MessageForm extends React.Component {
       return alert('Both forms must be filled');
     }
 
-    let call = this.peer.call(remote,
+    this.peer.call(remote,
       window.stream);
-
-    call.on('stream', function(stream) {
-      that.refs.remoteVideo.style.display= 'inline-block';
-      that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
-      that.setState({ call: 'none' });
-    });
   }
 
   render() {
