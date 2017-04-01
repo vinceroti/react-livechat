@@ -49,7 +49,7 @@ class MessageForm extends React.Component {
       call.on('stream', function(stream) {
         that.refs.remoteVideo.style.display= 'inline-block';
         that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
-        that.setState({ call: 'none' });
+        that.setState({ call: 'none', h3: 'none' });
       });
 
       call.answer(window.stream);
