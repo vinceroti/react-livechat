@@ -5,7 +5,7 @@ import { Button, Form, FormControl } from 'react-bootstrap';
 class MessageForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { id: '', h3: 'none', call: 'none' };
+    this.state = { id: '', h3: 'none', call: 'none', disconnectButton: 'none' };
     this.handleCallSubmit = this.handleCallSubmit.bind(this);
     this.handleConnectSubmit = this.handleConnectSubmit.bind(this);
   }
@@ -47,8 +47,9 @@ class MessageForm extends React.Component {
     this.peer.on('call', function(call) {
       // Answer the call, providing our mediaStream
       call.on('stream', function(stream) {
-        that.refs.remoteVideo.style.display= 'inline-block';
-        that.refs.remoteVideo.src = window.URL.createObjectURL(stream);
+        let remoteVideo = that.refs.remoteVideo;
+        remoteVideo.style.display= 'inline-block';
+        remoteVideo.src = window.URL.createObjectURL(stream);
         that.setState({ call: 'none', h3: 'none' });
       });
 
@@ -63,7 +64,7 @@ class MessageForm extends React.Component {
     });
 
     this.peer.on('open', function(id) {
-      that.setState({ id: id, h3: 'block', call: 'block' });
+      that.setState({ id: id, h3: 'block', call: 'block', disconnectButton: 'inline-block' });
       target.name.parentElement.remove();
     });
 
@@ -74,13 +75,16 @@ class MessageForm extends React.Component {
     event.preventDefault();
     const target = event.target;
     const remote = target.connectionName.value;
-    const that = this;
     if (remote === '') {
       return alert('Both forms must be filled');
     }
 
     this.peer.call(remote,
       window.stream);
+  }
+
+  disconnect(){
+    location.reload();
   }
 
   render() {
@@ -100,8 +104,11 @@ class MessageForm extends React.Component {
             Call
           </Button>
         </Form>
-        <video ref="localVideo" autoPlay muted></video>
-        <video style={{display: 'none'}} ref="remoteVideo" autoPlay></video>
+          <div>
+            <video ref="localVideo" autoPlay muted></video>
+            <video style={{display: 'none'}} ref="remoteVideo" autoPlay></video>
+          </div>
+        <Button className="top-margin" style={{display: this.state.disconnectButton}} onClick={(this.disconnect)} bsStyle='primary' bsSize='sm'>Disconnect</Button>
       </div>
     );
   }
