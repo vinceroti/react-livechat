@@ -35,8 +35,16 @@ function scrollToBottom(elm) {
   elm.scrollTop = height;
 }
 
+function sortByTime(data) {
+  return data.sort(function(a, b) {
+    a = new Date(a.time);
+    b = new Date(b.time);
+    return a - b;
+  });
+}
+
 function mapNewTime(messages) {
-  return messages = messages.map(function(message) {
+  return messages.map(function(message) {
     return message.time = convertToLocaleTime(message.time);
   });
 }
@@ -49,6 +57,7 @@ const utils = {
   requestNotification,
   spawnNotification,
   scrollToBottom,
+  sortByTime,
   mapNewTime,
   convertToLocaleTime,
   findAndRemove
