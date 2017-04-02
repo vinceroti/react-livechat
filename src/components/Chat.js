@@ -52,6 +52,10 @@ class Chat extends React.Component {
       this.setState({ typing: typing }) ;//listener for new messages
       this.typingFormatted(typing);
     });
+
+    this.socket.on('userConnect', message => {
+      this.setState({ messages: [...this.state.messages, message] }) ;
+    });
   }
 
   changeParentState(state, value) { //changes state of this app and sends out data via sockets
@@ -108,16 +112,17 @@ class Chat extends React.Component {
 
   render() {
     const messages = this.state.messages.map((message, index) => {
-      return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
+      if (typeof message === 'object') {
+        return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
+      } else {
+        return ( <li className='no-bullets' key={index}>{message}</li>  );
+      }
     });
 
     const tooltipAudio = (
       <Tooltip id="Tooltip"><strong>{this.state.tooltip}</strong> chat noise.</Tooltip>
     );
 
-    // const tooltipVideo = (
-    //   <Tooltip id="Tooltip">Join Video Call. (Work in progress)</Tooltip>
-    // );
     return (
       <main>
         <h4>Name set as: <b>{this.state.name}</b></h4>
@@ -129,13 +134,6 @@ class Chat extends React.Component {
             </button>
           </OverlayTrigger>
         </div>
-{/*        <div className='button-container'>
-          <OverlayTrigger placement="top" overlay={tooltipVideo}>
-            <button onClick={this.handleVideoClick} className='invis-button'>
-              <Glyphicon glyph="facetime-video" />
-            </button>
-          </OverlayTrigger>
-        </div>*/}
         <Well ref='chat' className='chat'>
           <li className='no-bullets'>Welcome {this.state.name}!</li>
           {messages}
