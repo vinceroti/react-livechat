@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 
 class Home extends React.Component {
@@ -9,13 +9,12 @@ class Home extends React.Component {
     return(
       <div>
         <nav>
-          <Link to="/chat">
-            <Button className='nav-button' bsStyle='primary' bsSize='sm'>Chat
-            </Button>
-          </Link>
-          <Link to="/video">
-            <Button bsStyle='primary' className='nav-button' bsSize='sm'>Video</Button>
-          </Link>
+          <NavLink className='nav-button btn btn-sm btn-primary ' to="/chat">
+            Chat
+          </NavLink>
+          <NavLink className='nav-button btn btn-sm btn-primary ' to="/video">
+            Video
+          </NavLink>
         </nav>
       </div>
     );
