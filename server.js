@@ -28,6 +28,8 @@ app.use('/peerjs', ExpressPeerServer(server, {
 
 
 io.on('connection', socket => {
+  socket.broadcast.emit('userConnect', 'new user connected');
+
   socket.on('message', message => {
     socket.broadcast.emit('message', {
       time: message.time,
@@ -39,9 +41,9 @@ io.on('connection', socket => {
     });
   });
 
-
   socket.on('typing', typing => {
     socket.broadcast.emit('typing', typing);
+    console.log(Object.keys(io.sockets.sockets));
   });
 });
 
@@ -49,8 +51,7 @@ var db;
 
 MongoClient.connect(`mongodb://${process.env.DB_USER}:${process.env.DB_PASS}@ds161029.mlab.com:61029/express-chat-app`, (err, database) => {
   if (err) { return console.log(err); }
-
-  db = database;
+;  db = database;
   server.listen(process.env.PORT || 3000);
 });
 

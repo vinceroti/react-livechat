@@ -52,6 +52,8 @@ class Chat extends React.Component {
       this.setState({ typing: typing }) ;//listener for new messages
       this.typingFormatted(typing);
     });
+
+    this.socket.on('userConnect', message => { console.log(message);});
   }
 
   changeParentState(state, value) { //changes state of this app and sends out data via sockets
