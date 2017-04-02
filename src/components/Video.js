@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Button, Form, FormControl } from 'react-bootstrap';
+import Rnd from 'react-rnd';
 
 class MessageForm extends React.Component {
   constructor(props) {
@@ -105,7 +106,20 @@ class MessageForm extends React.Component {
           </Button>
         </Form>
           <div>
-            <video ref="localVideo" autoPlay muted></video>
+{/*            <Rnd
+              ref={c => { this.rnd = c; }}
+              initial={{
+                width: 400,
+                height: 160,
+              }}
+              minWidth={300}
+              minHeight={160}
+              maxWidth={800}
+              maxHeight={300}
+              bounds={'parent'}
+            >*/}
+              <video ref="localVideo" autoPlay muted></video>
+{/*            </Rnd>*/}
             <video style={{display: 'none'}} ref="remoteVideo" autoPlay></video>
           </div>
         <Button className="top-margin" style={{display: this.state.disconnectButton}} onClick={(this.disconnect)} bsStyle='primary' bsSize='sm'>Disconnect</Button>

@@ -26,6 +26,7 @@ class Chat extends React.Component {
     axios.get('/index')
       .then(function (response) {
         let dbData = response.data.results;
+        utils.sortByTime(dbData);
         utils.mapNewTime(dbData);
         self.setState({ messages: dbData });
       })

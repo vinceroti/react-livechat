@@ -27,6 +27,7 @@
     "react": "^15.0.1",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.0.1",
+    "react-rnd": "^4.2.2",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
     "socket.io": "^1.4.5",
