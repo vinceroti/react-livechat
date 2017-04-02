@@ -53,7 +53,9 @@ class Chat extends React.Component {
       this.typingFormatted(typing);
     });
 
-    this.socket.on('userConnect', message => { console.log(message);});
+    this.socket.on('userConnect', message => {
+      this.setState({ messages: [...this.state.messages, message] }) ;
+    });
   }
 
   changeParentState(state, value) { //changes state of this app and sends out data via sockets
@@ -110,7 +112,11 @@ class Chat extends React.Component {
 
   render() {
     const messages = this.state.messages.map((message, index) => {
-      return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
+      if (typeof message === 'object') {
+        return ( <li className='no-bullets' key={index}>{message.time} - <b>{message.name}: </b>{message.body}</li> );
+      } else {
+        return ( <li className='no-bullets' key={index}>{message}</li>  );
+      }
     });
 
     const tooltipAudio = (

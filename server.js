@@ -28,7 +28,7 @@ app.use('/peerjs', ExpressPeerServer(server, {
 
 
 io.on('connection', socket => {
-  socket.broadcast.emit('userConnect', 'new user connected');
+  socket.broadcast.emit('userConnect', 'New user connected');
 
   socket.on('message', message => {
     socket.broadcast.emit('message', {
@@ -43,7 +43,6 @@ io.on('connection', socket => {
 
   socket.on('typing', typing => {
     socket.broadcast.emit('typing', typing);
-    console.log(Object.keys(io.sockets.sockets));
   });
 });
 
