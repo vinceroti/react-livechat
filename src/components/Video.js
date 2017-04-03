@@ -106,20 +106,7 @@ class MessageForm extends React.Component {
           </Button>
         </Form>
           <div>
-{/*            <Rnd
-              ref={c => { this.rnd = c; }}
-              initial={{
-                width: 400,
-                height: 160,
-              }}
-              minWidth={300}
-              minHeight={160}
-              maxWidth={800}
-              maxHeight={300}
-              bounds={'parent'}
-            >*/}
-              <video ref="localVideo" autoPlay muted></video>
-{/*            </Rnd>*/}
+            <video ref="localVideo" autoPlay muted></video>
             <video style={{display: 'none'}} ref="remoteVideo" autoPlay></video>
           </div>
         <Button className="top-margin" style={{display: this.state.disconnectButton}} onClick={(this.disconnect)} bsStyle='primary' bsSize='sm'>Disconnect</Button>
