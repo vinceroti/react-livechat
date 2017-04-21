@@ -8,17 +8,10 @@ class Home extends React.Component {
   render() {
     return(
       <div>
-        <nav>
-          <NavLink className='nav-button btn btn-sm btn-primary ' to="/chat">
-            Chat
-          </NavLink>
-          <NavLink className='nav-button btn btn-sm btn-primary ' to="/video">
-            Video
-          </NavLink>
-        </nav>
+        <p>Test</p>
       </div>
     );
-  }
+  }p>Test</p>
 }
 
 export default Home;
