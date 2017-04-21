@@ -11,7 +11,7 @@ class Home extends React.Component {
         <p>Test</p>
       </div>
     );
-  }p>Test</p>
+  }
 }
 
 export default Home;
