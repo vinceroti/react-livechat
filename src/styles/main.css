@@ -109,6 +109,11 @@ video {
     width: 200px;
   }
 
+  .container{
+    margin: 0px;
+    width: 300px;
+  }
+
   video {
     width: 300px;
   }
