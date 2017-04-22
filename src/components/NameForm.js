@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { FormControl } from 'react-bootstrap';
-import axios from 'axios';
+// import axios from 'axios';
 
 class NameForm extends React.Component {
   constructor(props) {
@@ -18,13 +18,13 @@ class NameForm extends React.Component {
   handleName(e) {
     let nameValue =  e.target.value;
     if (e.target.value === 'clearthechat' ) {
-      e.target.value = 'User';
-      alert('Database cleared; if you refresh you will lose chat.');
-      this.changeStateAndStorage('name', 'User');
-      axios.delete('/')
-        .catch(function (error) {
-          console.log(error);
-        });
+      // e.target.value = 'User';
+      // alert('Database cleared; if you refresh you will lose chat.');
+      // this.changeStateAndStorage('name', 'User');
+      // axios.delete('/')
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
     } else if (nameValue) {
       this.changeStateAndStorage('name', nameValue);
       e = document.querySelector('#message-form');

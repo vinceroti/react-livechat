@@ -64,11 +64,11 @@ app.get('/index', (req, res) => {
   });
 });
 
-app.delete('/', (req, res) => {
-  db.collection('chat').remove(function(err, results) {
-    res.json({ results });
-  });
-});
+// app.delete('/', (req, res) => {
+//   db.collection('chat').remove(function(err, results) {
+//     res.json({ results });
+//   });
+// });
 
 app.get('*', function (request, response){
   response.sendFile(path.resolve(__dirname, 'public', 'index.html'));
