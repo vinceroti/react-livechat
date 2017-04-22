@@ -13,8 +13,7 @@ class MessageForm extends React.Component {
 
   componentDidMount() {
     var that = this;
-    navigator.getUserMedia = navigator.getUserMedia ||
-    navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
     function successCallback(localMediaStream) {
       window.stream = localMediaStream; // stream available to console
